@@ -1,10 +1,19 @@
 import React from 'react'
+import {GlobalStyle} from './style'
+import { IconStyle } from './assets/iconfont/iconfont';
+
+import { renderRoutes } from 'react-router-config';//renderRoutes 读取路由配置转化为 Route 标签
+import routes from './routes/index.js';
+import { HashRouter } from 'react-router-dom';
+
 
 export default function App() {
   return (
-    <div>
-      <h1>APP</h1>
-    </div>
+    <HashRouter>
+      <GlobalStyle></GlobalStyle>
+      <IconStyle></IconStyle>
+      { renderRoutes (routes) }
+    </HashRouter>
   )
 }
 
