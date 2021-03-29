@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 import style from '../../assets/global-style'
 export const SilderContainer = styled.div`
   position: relative;
@@ -13,7 +13,7 @@ export const SilderContainer = styled.div`
     position: absolute;
     top: 0;
     left: 0;
-    background: ${style ["theme-color"]};
+    background: ${style[ 'theme-color' ]};
   }
   .slider-container {
     position: relative;
@@ -22,8 +22,5 @@ export const SilderContainer = styled.div`
     overflow: hidden;
     margin: auto;
     border-radius: 5px;
-    .swiper-pagination {
-      background: ${style ["theme-color"]};
-    }
   }
 `

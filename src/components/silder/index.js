@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react'
 // css 样式
 import { SilderContainer } from './style'
 // 引入swiper
-import Swiper from 'swiper'
-import 'swiper/swiper.min.css'
+import Swiper, {Pagination} from 'swiper'
+import 'swiper/swiper-bundle.css'
+Swiper.use([Pagination])
 
 function Silder(props) {
   const [sliderSwiper, setSliderSwiper] = useState(void 0)
@@ -16,9 +17,8 @@ function Silder(props) {
           delay: 3000, //3秒切换一次
           disableOnInteraction: false, //
         },
-        pagination:{
-          el:'.swiper-pagination',
-          clickable:true,
+        pagination: {
+          el: '.swiper-pagination',
         },
       })
       setSliderSwiper(newSwiper)
