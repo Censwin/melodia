@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react'
 // css 样式
 import { SilderContainer } from './style'
 // 引入swiper
-import Swiper, {Pagination} from 'swiper'
+import Swiper, {Pagination, Autoplay } from 'swiper'
 import 'swiper/swiper-bundle.css'
-Swiper.use([Pagination])
+Swiper.use([Pagination, Autoplay ])
 
 function Silder(props) {
   const [sliderSwiper, setSliderSwiper] = useState(void 0)
