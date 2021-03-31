@@ -19,8 +19,8 @@ export const List = styled.div`
 
 export const ListItem = styled.div`
   position: relative;
-  width: 30%;
-  margin-bottom: 5px;
+  width: 32%;
+  margin-bottom: 2px;
   .imgWrapper {
     .decorate {
       position: absolute;

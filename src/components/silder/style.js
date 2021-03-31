@@ -9,9 +9,9 @@ export const SilderContainer = styled.div`
   background: white;
   .before {
     width: 100%;
-    height: 60%;
+    height: 400px;
     position: absolute;
-    top: 0;
+    top: -200px;
     left: 0;
     background: ${style[ 'theme-color' ]};
   }

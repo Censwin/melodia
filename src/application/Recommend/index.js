@@ -1,6 +1,8 @@
 import React from 'react';
 import Silder from '../../components/silder';
 import RecommendList from '../../components/list';
+import Scroll from '../../baseUI/scroll';
+import {Content} from './style'
 export default function Recommend() {
   //mock 数据
   const bannerList = [1,2,3,4].map (item => {
@@ -15,9 +17,13 @@ export default function Recommend() {
     }
   })
   return (
-    <div>
-      <Silder bannerList={bannerList}></Silder>
-      <RecommendList list={singerList}></RecommendList>
-    </div>
+    <Content>
+      <Scroll>
+        <div>
+          <Silder bannerList={bannerList}></Silder>
+          <RecommendList list={singerList}></RecommendList>
+        </div>
+      </Scroll>
+    </Content>
   )
 }
