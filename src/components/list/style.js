@@ -39,7 +39,7 @@ export const ListItem = styled.div`
       position: absolute;
       top: 0;
       right: 0;
-      padding: 1px 3px;
+      padding: 5px 8px 0 0 ;
       font-size: 12px;
       color: #fff;
       .play {

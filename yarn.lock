@@ -9409,7 +9409,7 @@
     "strip-ansi" "6.0.0"
     "text-table" "0.2.0"
 
-"react-dom@*", "react-dom@^17.0.2", "react-dom@>= 16.8.0":
+"react-dom@*", "react-dom@^0.14.0 || ^15.0.0 || ^16.0.0 || ^17.0.0", "react-dom@^17.0.2", "react-dom@>= 16.8.0":
   "integrity" "sha1-7P+2hF462Nv83EmPDQqTlzZQLCM="
   "resolved" "https://registry.npm.taobao.org/react-dom/download/react-dom-17.0.2.tgz?cache=0&sync_timestamp=1616516442095&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Freact-dom%2Fdownload%2Freact-dom-17.0.2.tgz"
   "version" "17.0.2"
@@ -9447,6 +9447,11 @@
   "integrity" "sha1-5pHUqOnHiTZWVVOas3J2Kw77VPA="
   "resolved" "https://registry.npm.taobao.org/react-is/download/react-is-17.0.2.tgz"
   "version" "17.0.2"
+
+"react-lazyload@^3.2.0":
+  "integrity" "sha1-SXvQam29cBXjN24RN6Z9xH0t0CE="
+  "resolved" "https://registry.npm.taobao.org/react-lazyload/download/react-lazyload-3.2.0.tgz"
+  "version" "3.2.0"
 
 "react-redux@^7.2.3":
   "integrity" "sha1-TAhGGGALsZkBJofankISPMo/C+k="
