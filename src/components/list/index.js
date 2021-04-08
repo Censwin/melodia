@@ -2,6 +2,7 @@ import React from 'react'
 import { getCounter } from '../../api/utils';
 import { ListWrapper, List, ListItem } from './style';
 import LazyLoad from 'react-lazyload'
+import defaultIMG from './music.png'
 function RecommendList(props) {
   const {list} = props;
   return (
@@ -14,7 +15,7 @@ function RecommendList(props) {
               <ListItem key={item.id + index}>
                 <div className="imgWrapper">
                   <div className="decorate"></div>
-                  <LazyLoad placeholder={<img height="100%" width="100%" src={require('./music.png')} alt="music" />}>
+                  <LazyLoad placeholder={<img height="100" width="100" src={defaultIMG} alt="music" />}>
                     <img src={item.picUrl + "?param=300x300"} width="100%" height="100%" alt="music"/>
                   </LazyLoad>
                   <div className="played_total">
