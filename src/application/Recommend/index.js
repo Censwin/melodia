@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import Silder from '../../components/silder'
 import RecommendList from '../../components/list'
 import Scroll from '../../baseUI/scroll'
@@ -13,24 +13,26 @@ import Loading from '../../baseUI/loading/index'
 function Recommend(props) {
   const { bannerList, recommendList, isLoading } = props
   const { getBannerDataDispatch, getRecommendListDataDispatch } = props
+  const ref = useRef()
   // console.log(props)
   useEffect(() => {
     // 如果页面有数据，则不发请求
     //immutable 数据结构中长度属性 size
     // console.log(bannerList.toJS());
-    console.log(Scroll);
+    // console.log(ref.current); // scroll 暴露相关刷新接口 使用ref进行接收
     if (!bannerList.size) {
       getBannerDataDispatch()
     }
     if (!recommendList.size) {
       getRecommendListDataDispatch()
+      // ref.current.refresh()
     }
   }, [])
   const bannerListJS = bannerList ? bannerList.toJS() : []
   const recommendListJS = recommendList ? recommendList.toJS() : []
   return (
     <Content>
-      <Scroll onScroll={forceCheck}>
+      <Scroll onScroll={forceCheck} ref={ref}>
         <div>
           <Silder bannerList={bannerListJS}></Silder>
           <RecommendList list={recommendListJS}></RecommendList>

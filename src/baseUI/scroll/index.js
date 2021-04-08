@@ -82,7 +82,8 @@ const Scroll = React.forwardRef((props, ref) => {
       if (bScroll) {
         return bScroll;
       }
-    }
+    },
+    scrollContaninerRef
   }));
   return (
     <ScrollContainer ref={scrollContaninerRef}>
