@@ -35,16 +35,18 @@ export const changePullDownLoading = (data) => ({
   data
 });
 
-export const getHotSingerList = (dispatch) => {
-  getHotSingerListRequest(0).then(res => {
-    const data = res.artists;
-    dispatch(changeSingerList(data))
-    dispatch(changeEnterLoading(false))
-    dispatch(changePullDownLoading(false))
-  }).catch(()=>{
-    console.log('歌手数据获取失败');
-  })
-}
+export const getHotSingerList = () => {
+  return (dispatch) => {
+    getHotSingerListRequest(0).then(res => {
+      const data = res.artists;
+      dispatch(changeSingerList(data));
+      dispatch(changeEnterLoading(false));
+      dispatch(changePullDownLoading(false));
+    }).catch(() => {
+      console.log('热门歌手数据获取失败');
+    })
+  }
+};
 
 //加载更多热门歌手
 export const refreshMoreHotSingerList = () => {
