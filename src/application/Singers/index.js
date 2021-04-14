@@ -78,8 +78,12 @@ function Singers(props) {
   }
 
   const handleSetAlpha = (key) => {
-    setAlpha(key)
-    updateDispatch(_categ, key)
+    let val = key
+    if (key === _alpha) {
+      val = ''
+    }
+    setAlpha(val)
+    updateDispatch(_categ, val)
   }
 
   const handlePullUp = () => {
