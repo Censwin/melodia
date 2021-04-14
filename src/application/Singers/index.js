@@ -4,6 +4,10 @@ import { categoryTypes, alphaTypes } from '../../api/config'
 import { NavContainer, ListContainer, List, ListItem } from './style'
 import Scroll from './../../baseUI/scroll/index'
 
+import Loading from '../../baseUI/loading/index'
+
+import LazyLoad, {forceCheck} from 'react-lazyload'
+import defaultIMG from './music.png'
 import {
   getSingerList,
   getHotSingerList,
@@ -44,19 +48,21 @@ function Singers(props) {
   }, [])
 
   const renderSingerList = () => {
-    const list = singerList ? singerList.toJS(): [];
+    const list = singerList ? singerList.toJS() : []
     return (
       <List>
         {list.map((item, index) => {
           return (
             <ListItem key={item.accountId + '' + index}>
               <div className="img_wrapper">
+              <LazyLoad placeholder={<img height="100" width="100" src={defaultIMG} alt="music" />}>
                 <img
                   src={`${item.picUrl}?param=300x300`}
                   width="100%"
                   height="100%"
                   alt="music"
                 />
+                </LazyLoad>
               </div>
               <div className="name">{item.name}</div>
             </ListItem>
@@ -76,8 +82,17 @@ function Singers(props) {
     updateDispatch(_categ, key)
   }
 
+  const handlePullUp = () => {
+    pullUpRefreshDispatch(_categ, _alpha, pageCount)
+  }
+
+  const handlePullDown = () => {
+    pullDownRefreshDispatch(_categ, _alpha)
+  }
+
   return (
     <div>
+      {enterLoading && <Loading></Loading>}
       <NavContainer>
         <Horizen
           list={categoryTypes}
@@ -93,7 +108,15 @@ function Singers(props) {
         ></Horizen>
       </NavContainer>
       <ListContainer>
-        <Scroll>{renderSingerList(singerList)}</Scroll>
+        <Scroll
+          pullUp={handlePullUp}
+          pullDown={handlePullDown}
+          pullUpLoading={pullUpLoading}
+          pullDownLoading={pullDownLoading}
+          onScroll={forceCheck}
+        >
+          {renderSingerList(singerList)}
+        </Scroll>
       </ListContainer>
     </div>
   )
@@ -118,14 +141,10 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(getSingerList(category, alpha))
     },
     // 滑到最底部刷新部分的处理
-    pullUpRefreshDispatch(category, alpha, hot, count) {
+    pullUpRefreshDispatch(category, alpha, count) {
       dispatch(changePullUpLoading(true))
       dispatch(changePageCount(count + 1))
-      if (hot) {
-        dispatch(refreshMoreHotSingerList())
-      } else {
-        dispatch(refreshMoreSingerList(category, alpha))
-      }
+      dispatch(refreshMoreSingerList(category, alpha))
     },
     //顶部下拉刷新
     pullDownRefreshDispatch(category, alpha) {
