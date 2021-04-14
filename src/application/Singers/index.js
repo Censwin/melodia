@@ -17,7 +17,7 @@ import {
 import { connect } from 'react-redux'
 
 function Singers(props) {
-  const [_categ, setCateg] = useState('')
+  const [_categ, setCateg] = useState('-1')
   const [_alpha, setAlpha] = useState('')
 
   const {
@@ -66,6 +66,16 @@ function Singers(props) {
     )
   }
 
+  const handleSetCate = (key) => {
+    setCateg(key)
+    updateDispatch(key, _alpha)
+  }
+
+  const handleSetAlpha = (key) => {
+    setAlpha(key)
+    updateDispatch(_categ, key)
+  }
+
   return (
     <div>
       <NavContainer>
@@ -73,13 +83,13 @@ function Singers(props) {
           list={categoryTypes}
           title={'分类 (默认热门):'}
           oldVal={_categ}
-          handleClick={(key) => setCateg(key)}
+          handleClick={(key) => handleSetCate(key)}
         ></Horizen>
         <Horizen
           list={alphaTypes}
           title={'首字母:'}
           oldVal={_alpha}
-          handleClick={(key) => setAlpha(key)}
+          handleClick={(key) => handleSetAlpha(key)}
         ></Horizen>
       </NavContainer>
       <ListContainer>
