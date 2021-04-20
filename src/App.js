@@ -9,13 +9,17 @@ import { HashRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import store from './store'
 
+import {Data} from './application/Singers/data'
+
 export default function App() {
   return (
     <Provider store={store}>
       <HashRouter>
         <GlobalStyle></GlobalStyle>
         <IconStyle></IconStyle>
+        <Data>
         {renderRoutes(routes)}
+        </Data>
       </HashRouter>
     </Provider>
   )

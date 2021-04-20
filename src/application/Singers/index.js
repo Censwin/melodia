@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import Horizen from '../../baseUI/horizen-item'
 import { categoryTypes, alphaTypes } from '../../api/config'
+import { CategoryDataContext } from './data';
 import { NavContainer, ListContainer, List, ListItem } from './style'
 import Scroll from './../../baseUI/scroll/index'
 
@@ -19,11 +20,13 @@ import {
   refreshMoreHotSingerList,
 } from './store/actionCreators'
 import { connect } from 'react-redux'
-
+import {CHANGE_CATEGORY, CHANGE_ALPHA, Data} from './data'
 function Singers(props) {
-  const [_categ, setCateg] = useState('-1')
-  const [_alpha, setAlpha] = useState('')
-
+  // const [_categ, setCateg] = useState('-1')
+  // const [_alpha, setAlpha] = useState('')
+  const {data, dispatch} = useContext(CategoryDataContext)
+  console.log(useContext(CategoryDataContext));
+  const {_categ, _alpha} = data.toJS()
   const {
     singerList,
     enterLoading,
@@ -44,7 +47,9 @@ function Singers(props) {
     //immutable 数据结构中长度属性 size
     // console.log(bannerList.toJS());
     // console.log(ref.current); // scroll 暴露相关刷新接口 使用ref进行接收
-    getHotSingerDispatch()
+    if (!singerList.size) {
+      getHotSingerDispatch ();
+    }
   }, [])
 
   const renderSingerList = () => {
@@ -73,7 +78,7 @@ function Singers(props) {
   }
 
   const handleSetCate = (key) => {
-    setCateg(key)
+    dispatch({type: CHANGE_CATEGORY, data: key})
     updateDispatch(key, _alpha)
   }
 
@@ -82,7 +87,7 @@ function Singers(props) {
     if (key === _alpha) {
       val = ''
     }
-    setAlpha(val)
+    dispatch({type: CHANGE_ALPHA, data: key})
     updateDispatch(_categ, val)
   }
 
@@ -96,6 +101,7 @@ function Singers(props) {
 
   return (
     <div>
+      <Data>
       {enterLoading && <Loading></Loading>}
       <NavContainer>
         <Horizen
@@ -122,6 +128,7 @@ function Singers(props) {
           {renderSingerList(singerList)}
         </Scroll>
       </ListContainer>
+      </Data>
     </div>
   )
 }
