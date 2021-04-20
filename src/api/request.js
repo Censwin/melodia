@@ -14,3 +14,7 @@ export const getSingerListRequest = (type, area, alpha, offset) => {
     `/artist/list?type=${type}&area=${area}&initial=${alpha.toLowerCase()}`
   )
 }
+export const getRankListRequest = () => {
+  return axiosInstance.get (`/toplist/detail`);
+};
+
