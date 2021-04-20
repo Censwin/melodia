@@ -6,14 +6,11 @@ export const CHANGE_CATEGORY = 'singers/CHANGE_CATEGORY'
 export const CHANGE_ALPHA = 'singers/CHANGE_ALPHA'
 
 const reducer = (state, action) => {
-  console.log(state);
   switch (action.type) {
     case CHANGE_CATEGORY:
-      state.set('_categ', action.data)
-      break
+      return state.set('_categ', action.data);
     case CHANGE_ALPHA:
-      state.set('_alpha', action.data)
-      break
+      return state.set('_alpha', action.data);
     default:
       return state
   }
