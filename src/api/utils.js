@@ -10,3 +10,13 @@ export const getCounter =  (num) => {
     return Math.floor(num/1e+8) + '亿'
   }
 }
+
+export const filterIndex = (list) => {
+  for (let i in list) {
+    // for in 循环输出的 i 是 string。
+    i = +i
+    if (list[i].tracks.length && !list[i + 1].tracks.length) {
+      return i + 1
+    }
+  }
+}
