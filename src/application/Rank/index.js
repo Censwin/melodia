@@ -2,7 +2,8 @@ import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { getRankList } from './store'
 import { filterIndex } from './../../api/utils'
-import { List, ListItem, SongList } from './style'
+import { List, ListItem, SongList, Container } from './style'
+import Scroll from '../../baseUI/scroll'
 function Rank(props) {
   const { rankList: list, loading } = props
   const { getRankListDataDispatch } = props
@@ -32,7 +33,7 @@ function Rank(props) {
   }
   const renderRankList = (list, isGlobal) => {
     return (
-      <List>
+      <List isGlobal={isGlobal}>
         {list.map((item) => {
           return (
             <ListItem key={item.id} tracks={item.tracks}>
@@ -49,12 +50,18 @@ function Rank(props) {
     )
   }
 
-  return (<div>
-    <h1>官方榜</h1>
-    {renderRankList(guanfangBrand)}
-    <h1>全球榜</h1>
-    {renderRankList(globalBrand)}
-    </div>)
+  return (
+    <Container>
+      <Scroll>
+        <div>
+        <h1 className="offical">官方榜</h1>
+        {renderRankList(guanfangBrand)}
+        <h1 className="global">全球榜</h1>
+        {renderRankList(globalBrand, true)}
+        </div>
+      </Scroll>
+    </Container>
+  )
 }
 
 const mapStateToProps = (state) => ({

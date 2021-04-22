@@ -1,12 +1,38 @@
 import styled from 'styled-components'
 import style from './../../assets/global-style'
 
+export const Container = styled.div`
+  position: fixed;
+  top: 95px;
+  bottom: 0;
+  width: 100%;
+  z-index: -1;
+  .offical,.global {
+    margin: 10px 5px;
+    padding-top: 15px;
+    font-weight: 700;
+    font-size: ${style ["font-size-m"]};
+    color: ${style ["font-color-desc"]};
+  }
+`;
+
 export const List = styled.ul`
   display: ${props => props.isGlobal ? "flex" : ""};
+  padding: 0 5px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  &::after {
+    content:"";
+    display:block;
+    width: 32vw;
+  }
 `
 
 export const ListItem = styled.li`
-  display: ${props => props.tracks && props.tracks.length ? "flex" : ""};
+  display: ${props => props.tracks && props.tracks.length ? "flex" : "block"};
+  padding: 3px 0;
+  border-bottom: 1px solid ${style ["border-color"]};
   .imgWrapper {
     width:  ${props => props.tracks && props.tracks.length ? "27vw": "32vw"};
     height: ${props => props.tracks && props.tracks.length ? "27vw": "32vw"};
