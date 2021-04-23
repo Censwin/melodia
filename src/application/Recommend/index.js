@@ -9,6 +9,7 @@ import * as actionTypes from './store/actionCreators'
 import { forceCheck } from 'react-lazyload'
 
 import Loading from '../../baseUI/loading/index'
+import { renderRoutes } from 'react-router-config';
 
 function Recommend(props) {
   const { bannerList, recommendList, isLoading } = props
@@ -30,6 +31,7 @@ function Recommend(props) {
   }, [])
   const bannerListJS = bannerList ? bannerList.toJS() : []
   const recommendListJS = recommendList ? recommendList.toJS() : []
+  console.log(props);
   return (
     <Content>
       <Scroll onScroll={forceCheck} ref={ref}>
@@ -39,6 +41,7 @@ function Recommend(props) {
         </div>
       </Scroll>
       {isLoading && <Loading></Loading>}
+      {renderRoutes(props.route.routes)}
     </Content>
   )
 }

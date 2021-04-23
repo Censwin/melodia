@@ -5,5 +5,5 @@ export const Content = styled.div`
   top: 95px;
   bottom: 0;
   width: 100%;
-  z-index: -1;
+  /* z-index: -1; */
 `

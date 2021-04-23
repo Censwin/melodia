@@ -54,10 +54,10 @@ function Rank(props) {
     <Container>
       <Scroll>
         <div>
-        <h1 className="offical">官方榜</h1>
-        {renderRankList(guanfangBrand)}
-        <h1 className="global">全球榜</h1>
-        {renderRankList(globalBrand, true)}
+          <h1 className="offical">官方榜</h1>
+          {renderRankList(guanfangBrand)}
+          <h1 className="global">全球榜</h1>
+          {renderRankList(globalBrand, true)}
         </div>
       </Scroll>
     </Container>
