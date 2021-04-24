@@ -15,7 +15,7 @@ const PullUpLoading = styled.div`
   width: 60px;
   height: 60px;
   margin: auto;
-  z-index: 100;
+  /* z-index: 100; */
 `;
 
 const PullDownLoading = styled.div`
@@ -24,7 +24,7 @@ const PullDownLoading = styled.div`
   top: 0px;
   height: 30px;
   margin: auto;
-  z-index: 100;
+  /* z-index: 100; */
 `;
 
 const Scroll = React.forwardRef((props, ref) => {
