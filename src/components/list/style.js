@@ -24,6 +24,7 @@ export const ListItem = styled.div`
   .imgWrapper {
     .decorate {
       position: absolute;
+      z-index: 1;
       top: 0;
       width: 100%;
       height: 35px;
@@ -42,6 +43,7 @@ export const ListItem = styled.div`
       padding: 5px 8px 0 0 ;
       font-size: 12px;
       color: #fff;
+      z-index: 1;
       .play {
         vertical-align: middle;
       }
