@@ -4,7 +4,7 @@ export const Container = styled.div`
     position: fixed;
     inset: 0px;
     width: 100%;
-    /* z-index: 100; */
+    z-index: 100;
     overflow: hidden;
     background: rgb(242, 243, 244);
    // 动画样式代码

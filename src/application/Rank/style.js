@@ -6,7 +6,7 @@ export const Container = styled.div`
   top: 95px;
   bottom: 0;
   width: 100%;
-  /* z-index: -1; */
+  z-index: -1;
   .offical,.global {
     margin: 10px 5px;
     padding-top: 15px;

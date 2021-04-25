@@ -1,15 +1,13 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 import style from '../../assets/global-style'
 
 export const Top = styled.div`
-  position: relative;
-  z-index: 10;
-  display: flex;
+display: flex;
   flex-direction: row;
   justify-content: space-between;
   padding: 5px 10px;
-  background: ${style['theme-color']};
-  & > span {
+  background: ${style ["theme-color"]};
+  &>span {
     line-height: 40px;
     color: #f1f1f1;
     font-size: 20px;
@@ -20,13 +18,11 @@ export const Top = styled.div`
 `
 
 export const Tab = styled.div`
-  position: relative;
-  z-index: 10;
   height: 44px;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  background: ${style['theme-color']};
+  background: ${style ["theme-color"]};
   a {
     flex: 1;
     padding: 2px 0;
