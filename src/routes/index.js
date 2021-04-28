@@ -1,30 +1,25 @@
 import React from 'react';
-import { Redirect } from 'react-router';
-import Home from '../application/Home';
+import { Redirect } from "react-router-dom";
 import Recommend from '../application/Recommend';
 import Singers from '../application/Singers';
 import Rank from '../application/Rank';
-import Album from '../application/Album';
+import Home from '../application/Home';
 
 export default [
   {
-    path: '/',
+    path: "/",
     component: Home,
     routes: [
       {
-        path: '/',
+        path: "/",
         exact: true,
-        render: () => (<Redirect to={'/recommend'} />)
+        render: () => (
+          <Redirect to={"/recommend"}/>
+        )
       },
       {
         path: "/recommend",
-        component: Recommend,
-        routes: [
-          {
-            path: "/recommend/:id",
-            component: Album
-          }
-        ]
+        component: Recommend
       },
       {
         path: "/singers",

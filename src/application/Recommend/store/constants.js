@@ -2,4 +2,4 @@ export const CHANGE_BANNER = 'recommend/CHANGE_BANNER';
 
 export const CHANGE_RECOMMEND_LIST = 'recommend/RECOMMEND_LIST';
 
-export const CHANGE_LOADING_STATUS = 'recommend/CHANGE_LOADING_STATUS'
+export const CHANGE_ENTER_LOADING = 'recommend/CHANGE_ENTER_LOADING';

@@ -1,7 +1,7 @@
-import {createGlobalStyle} from 'styled-components'
+import { createGlobalStyle } from 'styled-components'
 
 export const GlobalStyle = createGlobalStyle`
-  html, body, div, span, applet, object, iframe,
+	html, body, div, span, applet, object, iframe,
 	h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 	a, abbr, acronym, address, big, cite, code,
 	del, dfn, em, img, ins, kbd, q, s, samp,
@@ -29,7 +29,7 @@ export const GlobalStyle = createGlobalStyle`
 	body {
 		line-height: 1;
 	}
-	html, body {
+	html, body{
 		background: #f2f3f4;;
 	}
 	ol, ul {
@@ -47,8 +47,8 @@ export const GlobalStyle = createGlobalStyle`
 		border-collapse: collapse;
 		border-spacing: 0;
 	}
-	a {
-    text-decoration: none;
+	a{
+		text-decoration: none;
 		color: #fff;
 	}
 `

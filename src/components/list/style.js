@@ -1,58 +1,67 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
+import style from '../../assets/global-style';
 
 export const ListWrapper = styled.div`
-  max-height: 100%;
-  .title {
-    line-height: 2em;
-    font-weight: bold;
-    padding-left: 1em;
-    font-size: 1em;
+  max-width: 100%;
+  .title{
+    font-weight: 700;
+    padding-left: 6px;
+    font-size: 14px;
+    line-height: 60px;
+    color: ${style["font-color"]};
   }
 `
-
 export const List = styled.div`
-  box-sizing: border-box;
+  width: 100%;
   display: flex;
+  flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-around;
-`
+`;
 
 export const ListItem = styled.div`
   position: relative;
   width: 32%;
-  margin-bottom: 2px;
-  .imgWrapper {
+  .img_wrapper{
     .decorate {
       position: absolute;
-      z-index: 1;
       top: 0;
       width: 100%;
       height: 35px;
       border-radius: 3px;
       background: linear-gradient(hsla(0,0%,43%,.4),hsla(0,0%,100%,0));
-    }
-    img {
-      height: 100%;
-      width: 100%;
-      border-radius: 5px;
-    }
-    .played_total {
-      position: absolute;
-      top: 0;
-      right: 0;
-      padding: 5px 8px 0 0 ;
-      font-size: 12px;
-      color: #fff;
       z-index: 1;
-      .play {
-        vertical-align: middle;
+    }
+    position: relative;
+    height: 0;
+    padding-bottom: 100%;
+    .play_count {
+      position: absolute;
+      right: 2px;
+      top: 2px;
+      font-size: ${style["font-size-s"]};
+      line-height: 15px;
+      color: ${style["font-color-light"]}!important;
+      z-index: 1;
+      .play{
+        vertical-align: top;
       }
     }
+    img {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 3px;
+    }
   }
-  &:last-child:nth-child(3n - 1) {
-    margin-right: calc(30% + 10% / 3)
-  }
-  &:last-child:nth-child(3n - 2) {
-    margin-right: calc(60% + 20% / 3)
-  }
+  .desc {
+      overflow: hidden;
+      margin-top: 2px;
+      padding: 0 2px;
+      height: 50px;
+      text-align: left;
+      font-size: ${style["font-size-s"]};
+      line-height: 1.4;
+      color: ${style["font-color-desc"]};
+    }
 `

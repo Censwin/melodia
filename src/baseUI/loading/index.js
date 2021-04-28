@@ -1,6 +1,7 @@
-import React from 'react'
-import styled, { keyframes } from 'styled-components'
-import style from '../../assets/global-style'
+import React from 'react';
+import styled, { keyframes } from 'styled-components';
+import style from '../../assets/global-style';
+import { PropTypes } from 'prop-types';
 
 const loading = keyframes`
   0%, 100% {
@@ -10,47 +11,42 @@ const loading = keyframes`
     transform: scale(1.0);
   }
 `
-
-const run = keyframes`
-  0%{
-      transform: rotateZ(0deg);
-  }
-  100%{
-      transform: rotateZ(360deg);
-  }
-`
 const LoadingWrapper = styled.div`
-  position: fixed;
-  /* z-index: 1000; */
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  margin: auto;
-  width: 60px;
-  height: 30px;
-  animation: ${run} 1.4s infinite ease-in;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  ._ball {
-    box-sizing: border-box;
-    margin: 5px;
-    width: 25px;
-    height: 20px;
+  >div {
+    position: absolute;
+    left: 0; 
+    right: 0;  
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    width: 60px;
+    height: 60px;
     opacity: 0.6;
     border-radius: 50%;
-    background-color: ${style['theme-color']};
+    background-color: ${style["theme-color"]};
+    animation: ${loading} 1.4s infinite ease-in;
+  }
+  >div:nth-child(2) {
+    animation-delay: -0.7s;
   }
 `
 
-function Loading() {
+function Loading(props) {
+  const { show } = props;
   return (
-    <LoadingWrapper>
-      <div className="_ball"></div>
-      <div className="_ball"></div>
+    <LoadingWrapper style={show ? {display: ""}: {display: "none"}}>
+      <div></div>
+      <div></div>
     </LoadingWrapper>
-  )
+  );
 }
 
-export default React.memo(Loading)
+Loading.defaultProps = {
+  show: true
+};
+
+Loading.propTypes = {
+  show: PropTypes.bool
+};
+ 
+export default React.memo(Loading);
