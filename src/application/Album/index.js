@@ -2,16 +2,16 @@ import React, { useEffect, useState } from 'react'
 import { Container } from './style'
 import { CSSTransition } from 'react-transition-group'
 import Header from '../../baseUI/header'
+import {currentAlbum} from './mock'
+import Scroll from '../../baseUI/scroll/index';
 
 function Album(props) {
   const [showStatus, setShowStatus] = useState(true)
   useEffect(() => {
-    // console.log(123123123);
   })
   const HeaderProps = {
     title: '歌手',
     handleClick: () => {
-      console.log(123);
       setShowStatus(false)
     }
   }
