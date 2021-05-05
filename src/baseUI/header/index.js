@@ -11,7 +11,8 @@ const HeaderContainer = styled.div`
   height: 40px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
+  color: ${style["font-color-light"]};
   >i {
     font-size: 20px;
     width: 20px;
