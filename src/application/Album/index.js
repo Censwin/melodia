@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState,useRef } from 'react'
 import { Container, TopDesc, Menu,SongList,SongItem } from './style'
 import { CSSTransition } from 'react-transition-group'
 import Header from '../../baseUI/header'
@@ -6,15 +6,21 @@ import { currentAlbum } from './mock'
 import Scroll from '../../baseUI/scroll/index'
 import defauleImg from '../../components/list/music.png'
 import {getCount, getName} from '../../api/utils'
+
+
 function Album(props) {
   const [showStatus, setShowStatus] = useState(true)
+  const [isMarquee, setIsMarquee] = useState(false) // 跑马灯
+  const [title, setTitle] = useState("歌单")
   useEffect(() => {})
   const HeaderProps = {
     title: '歌手',
     handleClick: () => {
       setShowStatus(false)
     },
+    isMarquee
   }
+  const handerEl = useRef()
   return (
     <CSSTransition
       in={showStatus}
@@ -25,7 +31,7 @@ function Album(props) {
       onExited={props.history.goBack}
     >
       <Container>
-        <Header {...HeaderProps} />
+        <Header ref={handerEl} {...HeaderProps} />
         <Scroll>
           <TopDesc background={currentAlbum.coverImgUrl}>
             <div className="background">

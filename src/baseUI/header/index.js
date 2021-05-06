@@ -24,22 +24,28 @@ const HeaderContainer = styled.div`
     font-weight: 700;
   }
 `
-function Header(props) {
-  const {handleClick, title} = props
+
+const Header = React.forwardRef((props, ref) => {
+  const {handleClick, title, isMarquee} = props
   return (
-    <HeaderContainer>
+    <HeaderContainer ref={ref}>
       <i className="iconfont back" onClick={() => handleClick()}>&#xe655;</i>
-      <h1>{title}</h1>
-      {/* <i className="iconfont option">&#xe65c;</i> */}
+      {
+        isMarquee ? <marquee><h1>{title}</h1></marquee>:
+        <h1>{title}</h1>
+      }
     </HeaderContainer>
   )
-}
+})
+
 Header.defaultProps = {
   handleClick: () => {},
-  title: '推荐'
+  title: '推荐',
+  isMarquee: false
 }
 Header.propTypes = {
   handleClick: PropTypes.func,
-  title: PropTypes.string
+  title: PropTypes.string,
+  isMarquee: PropTypes.bool
 }
 export default Header
