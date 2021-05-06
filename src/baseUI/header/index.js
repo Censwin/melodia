@@ -9,6 +9,7 @@ const HeaderContainer = styled.div`
   left:0;
   width:100%;
   height: 40px;
+  z-index: 100;
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -29,7 +30,7 @@ function Header(props) {
     <HeaderContainer>
       <i className="iconfont back" onClick={() => handleClick()}>&#xe655;</i>
       <h1>{title}</h1>
-      <i className="iconfont option">&#xe65c;</i>
+      {/* <i className="iconfont option">&#xe65c;</i> */}
     </HeaderContainer>
   )
 }

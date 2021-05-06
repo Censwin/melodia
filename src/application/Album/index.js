@@ -28,10 +28,13 @@ function Album(props) {
         <Header {...HeaderProps} />
         <Scroll>
           <TopDesc background={currentAlbum.coverImgUrl}>
+            <div className="background">
+              <div className="filter"></div>
+            </div>
             <div className="info_wrapper">
               <div className="imgWrapper">
                 <div className="decorate"></div>
-                <img src={currentAlbum.creator.avatarUrl} alt="" />
+                <img src={currentAlbum.coverImgUrl} alt="" />
                 <div className="play_count">
                   <i className="iconfont play">&#xe885;</i>
                   <span className="count">

@@ -34,10 +34,26 @@ export const TopDesc = styled.div`
   height: 275px;
   position: relative;
   flex-direction:column;
-  z-index: -1;
-  background: url(${props => props.background}) no-repeat;
-  background-position: 0 0;
-  background-size: 100% 100%;
+  .background {
+    position:absolute;
+    top: 0;
+    left: 0;
+    background: url(${props => props.background}) no-repeat;
+    background-position: 0 0;
+    background-size: 100% 100%;
+    filter: blur(10px);
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    /* .filter {
+      position: absolute;
+      z-index: 10;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba (7, 17, 27, 0.2);
+    } */
+  }
   .info_wrapper {
     width: 100%;
     height: 275px;
@@ -78,9 +94,11 @@ export const TopDesc = styled.div`
       padding-left: 20px;
       height: 120px;
       .title {
-        font-size: ${style["font-size-ll"]};
-        font-weight: bold;
-        color: ${style["font-color-light"]};
+        max-height: 70px;
+        color: ${style ["font-color-light"]};
+        font-weight: 700;
+        line-height: 1.5;
+        font-size: ${style ["font-size-l"]};
         padding-right: 2em;
       }
       .person {
