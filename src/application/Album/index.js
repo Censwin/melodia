@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState, useRef, useCallback } from 'react'
 import { Container, TopDesc, Menu, SongList, SongItem } from './style'
 import { CSSTransition } from 'react-transition-group'
 import Header from '../../baseUI/header'
@@ -31,7 +31,7 @@ function Album(props) {
     isMarquee,
   }
   const headerEl = useRef()
-  const handleScroll = (pos) => {
+  const handleScroll = useCallback((pos) => {
     let minScrollY = -HEADER_HEIGHT
     let percent = Math.abs(pos.y / minScrollY)
     let headerDom = headerEl.current
@@ -47,7 +47,7 @@ function Album(props) {
       setTitle('歌单')
       setIsMarquee(false)
     }
-  }
+  },[currentAlbum])
   const RenderTopDesc = () => {
     return (
       <TopDesc background={currentAlbum.coverImgUrl}>
@@ -169,5 +169,14 @@ const mapDispatchToProps = (dispatch) => {
     },
   }
 }
+
+// dispatch 源码
+// function (action) {
+//   if (typeof action === 'function') {
+//     return action(dispatch, getState, extraArgument);
+//   }
+  
+//   return next(action);
+// };
 
 export default connect(mapStateToProps, mapDispatchToProps)(React.memo(Album))
