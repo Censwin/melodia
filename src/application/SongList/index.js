@@ -1,44 +1,59 @@
-import React,{forwardRef, memo} from 'react';
-import { getCount, getName, isEmptyObject } from '../../api/utils';
-import {SongList, SongItem } from './style'
-const SongsList = forwardRef((props, refs) => {
-  const {songs} = props
+import React from 'react';
+import { SongList, SongItem } from "./style";
+import { getName } from '../../api/utils';
+
+const SongsList = React.forwardRef ((props, refs)=> {
+
+  const { collectCount, showCollect, songs } = props;
+
+  const totalCount = songs.length;
+
+  const selectItem = (e, index) => {
+    console.log (index);
+  }
 
   let renderSongList = (list) => {
-    list.map((item, index) => {
-      return (
-        <li key={index}>
-          <span className="index">{index + 1}</span>
+    console.log(list);
+    let res = [];
+    for (let i = 0; i < list.length; i++) {
+      let item = list [i];
+      res.push (
+        <li key={item.id} onClick={(e) => selectItem (e, i)}>
+          <span className="index">{i + 1}</span>
           <div className="info">
             <span>{item.name}</span>
             <span>
-              {getName(item.ar)} - {item.al.name}
+              { item.ar ? getName (item.ar): getName (item.artists) } - { item.al ? item.al.name : item.album.name}
             </span>
           </div>
         </li>
       )
-    })
-  }
+    }
+    return res;
+  };
 
+  const collect = (count) => {
+    return  (
+      <div className="add_list">
+        <i className="iconfont">&#xe62d;</i>
+        <span > 收藏 ({Math.floor (count/1000)/10} 万)</span>
+      </div>
+    )
+  };
   return (
-    <SongList>
-        <div className="first_line">
-          <div className="play_all">
-            <i className="iconfont">&#xe6e3;</i>
-            <span>
-              播放全部<span className="sum">(共{10}首)</span>
-            </span>
-          </div>
-          <div className="markBill">
-            <i className="iconfont">&#xe62d;</i>
-            <span> 收藏 ({getCount(10000)})</span>
-          </div>
+    <SongList ref={refs} showBackground={props.showBackground}>
+      <div className="first_line">
+        <div className="play_all" onClick={(e) => selectItem (e, 0)}>
+          <i className="iconfont">&#xe6e3;</i>
+          <span > 播放全部 <span className="sum">(共 {totalCount} 首)</span></span>
         </div>
-        <SongItem>
-          {renderSongList(songs)}
-        </SongItem>
-      </SongList>
+        { showCollect ? collect (collectCount) : null}
+      </div>
+      <SongItem>
+        { renderSongList (songs) }
+      </SongItem>
+    </SongList>
   )
-})
+});
 
-export default memo(SongsList)
+export default React.memo (SongsList);

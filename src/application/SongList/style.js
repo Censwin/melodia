@@ -2,39 +2,46 @@ import styled from 'styled-components'
 import style from '../../assets/global-style'
 
 export const SongList = styled.div`
-  position: relative;
-  border-radius: 5px 5px 0 0;
+  border-radius: 10px;
+  opacity: 0.98;
+  // 注意在这里背景改为自配置参数控制
+  ${props => props.showBackground ? `background: ${style["highlight-background-color"]}`: ""}
   .first_line {
-    display: flex;
-    height: 3em;
-    justify-content:space-between;
-    align-items:center;
-    border-bottom: 1px solid ${style ["border-color"]};
+    box-sizing: border-box;
+    padding: 10px 0;
+    margin-left: 10px;
+    position: relative;
+    justify-content: space-between;
+    border-bottom: 1px solid ${style["border-color"]};
     .play_all {
-      padding-left: 10px;
+      display: inline-block;
+      line-height: 24px;
+      color: ${style["font-color-desc"]};
       .iconfont {
         font-size: 24px;
-        margin-right:5px;
-        vertical-align: text-bottom;
+        margin-right: 10px;
+        vertical-align: top;
       }
       .sum {
-        margin-left: 5px;
-        vertical-align: middle;
         font-size: ${style["font-size-s"]};
         color: ${style["font-color-desc-v2"]};
-        >span {
-          vertical-align: top;
-        }
+      }
+      >span {
+        vertical-align: top;
       }
     }
-    .markBill{
+    .add_list,.isCollected {
       display: flex;
-      align-items:center;
+      align-items: center;
+      position: absolute;
+      right: 0; top :0; bottom: 0;
+      width: 130px;
+      line-height: 34px;
       background: ${style["theme-color"]};
       color: ${style["font-color-light"]};
-      height:100%;
-      padding-right: 40px;
-      border-radius: 5px 0 0 5px;
+      font-size: 0;
+      border-radius: 3px;
+      vertical-align: top;
       .iconfont {
         vertical-align: top;
         font-size: 10px;
@@ -45,37 +52,45 @@ export const SongList = styled.div`
         line-height: 34px;
       }
     }
-  }
-`
-
-export const SongItem = styled.ul`
-  li {
-    display: flex;
-    height: 60px;
-    align-items: center;
-    padding: 3px 0;
-  }
-  .index {
-    width: 60px;
-    height: 60px;
-    text-align: center;
-    line-height: 60px;
-  }
-  .info{
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    padding: 5px 0;
-    justify-content: space-around;
-    border-bottom: 1px solid ${style["border-color"]};
-    ${style.noWrap()}
-    >span:first-child {
+    .isCollected {
+      display: flex;
+      background: ${style["background-color"]};
       color: ${style["font-color-desc"]};
     }
-    >span:last-child {
-      font-size: ${style["font-size-s"]};
-      color: #bba8a8;
+}
+`
+export const SongItem = styled.ul`
+  >li {
+    display: flex;
+    height: 60px;
+    align-items: center;  
+    .index {
+      flex-basis: 60px;
+      width: 60px;
+      height: 60px;
+      line-height: 60px;
+      text-align: center;
+    }
+    .info {
+      box-sizing: border-box;
+      flex: 1;
+      display: flex;
+      height: 100%;
+      padding: 5px 0;
+      flex-direction: column;
+      justify-content: space-around;
+      border-bottom: 1px solid ${style["border-color"]};
+      ${style.noWrap ()}
+      >span {
+        ${style.noWrap ()}
+      }
+      >span:first-child {
+        color: ${style["font-color-desc"]};
+      }
+      >span:last-child {
+        font-size: ${style["font-size-s"]};
+        color: #bba8a8;
+      }
     }
   }
 `
