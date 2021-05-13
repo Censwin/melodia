@@ -1,0 +1,3 @@
+export const CHANGE_SINGER = 'singer/CHANGE_SINGER'
+export const CHANGE_SONGS_OF_SINGER = 'singer/CHANGE_SONGS_OF_SINGER'
+export const CHANGE_ENTER_LOADING = 'singer/CHANGE_ENTER_LOADING'
