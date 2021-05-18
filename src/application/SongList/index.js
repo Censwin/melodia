@@ -13,7 +13,6 @@ const SongsList = React.forwardRef ((props, refs)=> {
   }
 
   let renderSongList = (list) => {
-    console.log(list);
     let res = [];
     for (let i = 0; i < list.length; i++) {
       let item = list [i];

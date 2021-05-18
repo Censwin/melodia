@@ -16,7 +16,7 @@ const changeSongs = (list) => {
   }
 }
 
-const changeEnterLoading = (loading) => {
+export const changeEnterLoading = (loading) => {
   return {
     type: actionTypes.CHANGE_ENTER_LOADING,
     loading
@@ -25,6 +25,10 @@ const changeEnterLoading = (loading) => {
 
 export const getSingerInfo = (id) => {
   return (dispatch) => {
-    
+    getSingerInfoRequest(id).then(res => {
+      dispatch(changeArtist(res.artist));
+      dispatch(changeSongs(res.hotSongs));
+      dispatch(changeEnterLoading(true))
+    })
   }
 }
