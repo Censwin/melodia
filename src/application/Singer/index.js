@@ -121,7 +121,7 @@ function Singer(props) {
             <SongList {...songsListProps}></SongList>
           </Scroll>
         </SongListWrapper>
-        { enterLoading ? <div style={{zIndex: '1000'}}><Loading></Loading></div> : null }
+        { enterLoading ? <div><Loading></Loading></div> : null }
       </Container>
     </CSSTransition>
   )

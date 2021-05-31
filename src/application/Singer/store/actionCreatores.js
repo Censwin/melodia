@@ -28,7 +28,7 @@ export const getSingerInfo = (id) => {
     getSingerInfoRequest(id).then(res => {
       dispatch(changeArtist(res.artist));
       dispatch(changeSongs(res.hotSongs));
-      dispatch(changeEnterLoading(true))
+      dispatch(changeEnterLoading(false))
     })
   }
 }

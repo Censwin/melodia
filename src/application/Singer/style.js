@@ -35,7 +35,7 @@ export const ImgWrapper = styled.div`
   transform-origin: center top;
   background: url(${props => props.bgUrl}) no-repeat;
   background-size: cover;
-  z-index: 50;
+  z-index: 51;
   .filter { // 这是一个滤镜
     position: absolute;
     top: 0;
@@ -59,7 +59,7 @@ export const MarkBtn = styled.div`
   right: 0;
   margin: auto;
   margin-top: -55px;
-  z-index: 50;
+  z-index: 51;
   .iconfont {
     display: inline-block;
     margin-right: 10px;
@@ -96,3 +96,4 @@ export const SongListWrapper = styled.div`
     overflow: visible;
   }
 `
+
