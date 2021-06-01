@@ -21,7 +21,7 @@ export default (state = defaultState, action) => {
       return state.set ('fullScreen', action.data);
     case actionTypes.SET_PLAYING_STATE:
       return state.set ('playing', action.data);
-    case actionTypes.SET_SEQUECE_PLAYLIST:
+    case actionTypes.SET_SEQUENCE_PLAYLIST:
       return state.set ('sequencePlayList', action.data);
     case actionTypes.SET_PLAYLIST:
       return state.set ('playList', action.data);
