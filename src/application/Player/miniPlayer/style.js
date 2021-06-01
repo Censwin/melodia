@@ -15,7 +15,7 @@ display: flex;
 align-items: center;
 width: 100%;
 height: 60px;
-background: green;
+background: ${style["highlight-background-color"]};
 position: fixed;
 bottom: 0;
 left: 0;
