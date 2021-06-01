@@ -13,4 +13,10 @@ const rotate = keyframes`
 export const MiniPlayerContainer = styled.div`
 display: flex;
 align-items: center;
+width: 100%;
+height: 60px;
+background: green;
+position: fixed;
+bottom: 0;
+left: 0;
 `
