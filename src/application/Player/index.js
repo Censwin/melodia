@@ -9,18 +9,34 @@ import {
   changePlayMode,
   changeFullScreen,
 } from './store/actionCreators'
-import MiniPlayer from './miniPlayer';
+import MiniPlayer from './miniPlayer'
+import NormalPlayer from './normalPlayer'
 
 function Player(props) {
   const currentSong = {
-    al: { picUrl: "https://p1.music.126.net/JL_id1CFwNJpzgrXwemh4Q==/109951164172892390.jpg" },
-    name: "木偶人",
-    ar: [{name: "薛之谦"}]
+    al: {
+      picUrl:
+        'https://p1.music.126.net/JL_id1CFwNJpzgrXwemh4Q==/109951164172892390.jpg',
+    },
+    name: '木偶人',
+    ar: [{ name: '薛之谦' }],
   }
+  const { fullScreen } = props
+  const { toggleFullScreenDispatch } = props
   return (
-  <div>
-    <MiniPlayer song={currentSong}/>
-  </div>)
+    <div>
+      <MiniPlayer
+        song={currentSong}
+        fullScreen={fullScreen}
+        toggleFullScreen={toggleFullScreenDispatch}
+      />
+      <NormalPlayer
+        song={currentSong}
+        fullScreen={fullScreen}
+        toggleFullScreen={toggleFullScreenDispatch}
+      />
+    </div>
+  )
 }
 
 // 映射 Redux 全局的 state 到组件的 props 上
