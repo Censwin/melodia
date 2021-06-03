@@ -11,30 +11,80 @@ import {
 } from './store/actionCreators'
 import MiniPlayer from './miniPlayer'
 import NormalPlayer from './normalPlayer'
-
+import {getSongUrl, isEmptyObject} from '../../api/utils'
 function Player(props) {
-  const currentSong = {
-    al: {
-      picUrl:
-        'https://p1.music.126.net/JL_id1CFwNJpzgrXwemh4Q==/109951164172892390.jpg',
-    },
-    name: '木偶人',
-    ar: [{ name: '薛之谦' }],
+  const { fullScreen, playing, currentIndex, currentSong: immutableCurrentSong, playList: immutablePlaylist } = props
+  const { toggleFullScreenDispatch, togglePlayingDispatch, changeCurrentIndexDispatch, changeCurrentDispatch } = props
+  //目前播放时间
+  const [currentTime, setCurrentTime] = useState(0);
+  //歌曲总时长
+  const [duration, setDuration] = useState(0);
+  //歌曲播放进度
+  let percent = isNaN(currentTime / duration) ? 0 : currentTime / duration;
+  const clickPlaying = (e, state) => {
+    e.stopPropagation();
+    togglePlayingDispatch(state);
   }
-  const { fullScreen } = props
-  const { toggleFullScreenDispatch } = props
+  let currentSong = immutableCurrentSong.toJS();
+  let playList = immutablePlaylist.toJS()
+  const audioRef = useRef();
+  useEffect(() => {
+    if(!currentSong) return;
+    changeCurrentIndexDispatch(0);//currentIndex默认为-1，临时改成0
+    let current = playList[0];
+    changeCurrentDispatch(current);//赋值currentSong
+    audioRef.current.src = getSongUrl(current.id);
+    setTimeout(() => {
+      audioRef.current.play();
+    });
+    togglePlayingDispatch(true);//播放状态
+    setCurrentTime(0);//从头开始播放
+    setDuration((current.dt / 1000) | 0);//时长
+  }, [])
+  useEffect(() => {
+    playing ? audioRef.current.play() : audioRef.current.pause()
+  }, [playing])
+  const updateTime = e => {
+    setCurrentTime(e.target.currentTime);
+  };
+  const onProgressChange = curPercent => {
+    const newTime = curPercent * duration;
+    setCurrentTime(newTime);
+    audioRef.current.currentTime = newTime;
+    if (!playing) {
+      togglePlayingDispatch(true);
+    }
+  };
+  const lastSong = () => {
+
+  }
+  const nextSong = () => {
+
+  }
   return (
     <div>
-      <MiniPlayer
+      {!isEmptyObject(currentSong) && <MiniPlayer
         song={currentSong}
         fullScreen={fullScreen}
         toggleFullScreen={toggleFullScreenDispatch}
-      />
-      <NormalPlayer
+        playing={playing}
+        clickPlaying={clickPlaying}
+        percent={percent}
+      />}
+      {!isEmptyObject(currentSong) && <NormalPlayer
         song={currentSong}
         fullScreen={fullScreen}
+        playing={playing}
+        duration={duration}//总时长
+        currentTime={currentTime}//播放时间
+        percent={percent}//进度
         toggleFullScreen={toggleFullScreenDispatch}
-      />
+        clickPlaying={clickPlaying}
+        onProgressChange={onProgressChange}
+        lastSong={lastSong}
+        nextSong={nextSong}
+      />}
+      <audio ref={audioRef} onTimeUpdate={updateTime}></audio>
     </div>
   )
 }

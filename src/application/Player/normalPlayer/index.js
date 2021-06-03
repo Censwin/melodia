@@ -1,5 +1,5 @@
 //normalPlayer/index.js
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import { CSSTransition } from 'react-transition-group'
 import { getName } from '../../../api/utils'
 import {
@@ -12,12 +12,12 @@ import {
   ProgressWrapper,
 } from './style'
 import animations from 'create-keyframe-animation'
-import { prefixStyle } from '../../../api/utils'
+import { prefixStyle, formatPlayTime } from '../../../api/utils'
 import ProgressBar from '../../../baseUI/progressBar'
 
 function NormalPlayer(props) {
-  const { song, fullScreen } = props
-  const { toggleFullScreen } = props
+  const { song, fullScreen, playing, percent, duration, currentTime } = props
+  const { toggleFullScreen, clickPlaying, onProgressChange,lastSong,nextSong } = props
 
   const normalPlayerRef = useRef()
   const cdWrapperRef = useRef()
@@ -120,7 +120,7 @@ function NormalPlayer(props) {
           <CDWrapper>
             <div className="cd">
               <img
-                className="image play"
+                className={`image play ${playing ? '' : 'pause'}`}
                 src={song.al.picUrl + '?param=400x400'}
                 alt=""
               />
@@ -129,23 +129,32 @@ function NormalPlayer(props) {
         </Middle>
         <Bottom className="bottom">
           <ProgressWrapper>
-            <span className="time time-l">0:00</span>
+            <span className="time time-l">{formatPlayTime(currentTime)}</span>
             <div className="progress-bar-wrapper">
-              <ProgressBar percent={0.2}></ProgressBar>
+              <ProgressBar
+                percent={percent}
+                percentChange={onProgressChange}
+              ></ProgressBar>
             </div>
-            <div className="time time-r">4:17</div>
+            <div className="time time-r">{formatPlayTime(duration)}</div>
           </ProgressWrapper>
           <Operators>
             <div className="icon i-left">
               <i className="iconfont">&#xe625;</i>
             </div>
-            <div className="icon i-left">
+            <div className="icon i-left" onClick={lastSong}>
               <i className="iconfont">&#xe6e1;</i>
             </div>
             <div className="icon i-center">
-              <i className="iconfont">&#xe723;</i>
+              <i
+                className="iconfont"
+                onClick={(e) => clickPlaying(e, !playing)}
+                dangerouslySetInnerHTML={{
+                  __html: playing ? '&#xe723;' : '&#xe731;',
+                }}
+              ></i>
             </div>
-            <div className="icon i-right">
+            <div className="icon i-right" onClick={nextSong}>
               <i className="iconfont">&#xe718;</i>
             </div>
             <div className="icon i-right">

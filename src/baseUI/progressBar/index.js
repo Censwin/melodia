@@ -39,20 +39,37 @@ function ProgressBar(props) {
   const progress = useRef()
   const progressBtn = useRef()
   const [touch, setTouch] = useState({})
-  const progressBtnWidth = 16;  
+  const progressBtnWidth = 16; 
+  const transform = prefixStyle('transform');
+  const { percent } = props; 
   const {percentChange} = props;
-
+  //监听percent
+  useEffect(() => {
+    if(percent >= 0 && percent <= 1 && !touch.initiated) {
+      const barWidth = progressBar.current.clientWidth - progressBtnWidth;
+      const offsetWidth = percent * barWidth;
+      progress.current.style.width = `${offsetWidth}px`;
+      progressBtn.current.style[transform] = `translate3d(${offsetWidth}px, 0, 0)`;
+    }
+    // eslint-disable-next-line
+  }, [percent]);
   const _changePercent = () => {
     const barWidth = progressBar.current.clientWidth - progressBtnWidth;
     const curPercent = progress.current.clientWidth/barWidth;// 新的进度计算
-    percentChange (curPercent);// 把新的进度传给回调函数并执行
+    percentChange(curPercent);// 把新的进度传给回调函数并执行
   }
   // 处理进度条的偏移
   const _offset = (offsetWidth) => {
-    progress.current.style.width = `${offsetWidth} px`
-    progressBtn.current.style.transform = `translate3d (${offsetWidth} px, 0, 0)`
-  }
+    progress.current.style.width = `${offsetWidth}px`;
+    progressBtn.current.style.transform = `translate3d(${offsetWidth}px, 0, 0)`;
+  };
 
+  const progressClick = (e) => {
+    const rect = progressBar.current.getBoundingClientRect();
+    const offsetWidth = e.pageX - rect.left;
+    _offset(offsetWidth);
+    _changePercent();
+  };
   const progressTouchStart = (e) => {
     const startTouch = {}
     startTouch.initiated = true //initial 为 true 表示滑动动作开始了
@@ -60,7 +77,6 @@ function ProgressBar(props) {
     startTouch.left = progress.current.clientWidth // 当前 progress 长度
     setTouch(startTouch)
   }
-
   const progressTouchMove = (e) => {
     if (!touch.initiated) return
     // 滑动距离
@@ -69,19 +85,13 @@ function ProgressBar(props) {
     const offsetWidth = Math.min(Math.max(0, touch.left + deltaX), barWidth)
     _offset(offsetWidth)
   }
-
   const progressTouchEnd = (e) => {
     const endTouch = JSON.parse(JSON.stringify(touch))
     endTouch.initiated = false
     setTouch(endTouch)
-    _changePercent ();
+    _changePercent();
   }
-  const progressClick = (e) => {
-    const rect = progressBar.current.getBoundingClientRect ();
-    const offsetWidth = e.pageX - rect.left;
-    _offset (offsetWidth);
-    _changePercent ();
-  };
+  
   return (
     <ProgressBarWrapper>
       <div className="bar-inner" ref={progressBar} onClick={progressClick}>
