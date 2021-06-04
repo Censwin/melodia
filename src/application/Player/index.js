@@ -152,6 +152,7 @@ function Player(props) {
           playing={playing}
           clickPlaying={clickPlaying}
           percent={percent}
+          nextSong={nextSong}
         />
       )}
       {!isEmptyObject(currentSong) && (
