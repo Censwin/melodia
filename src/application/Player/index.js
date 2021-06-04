@@ -76,11 +76,11 @@ function Player(props) {
   useEffect(() => {
     playing ? audioRef.current.play() : audioRef.current.pause();
   }, [playing])
-  useEffect(() => { // 当前歌曲播完自动播放下一首
-    if (percent >= 1) {
-      nextSong()
-    }
-  }, [percent])
+  // useEffect(() => { // 当前歌曲播完自动播放下一首
+  //   if (percent >= 1) {
+  //     nextSong()
+  //   }
+  // }, [percent])
   const updateTime = (e) => {
     setCurrentTime(e.target.currentTime)
   }
@@ -172,7 +172,7 @@ function Player(props) {
           changeMode={changeMode}
         />
       )}
-      <audio ref={audioRef} onTimeUpdate={updateTime}></audio>
+      <audio ref={audioRef} onTimeUpdate={updateTime} onEnded={nextSong}></audio>
     </div>
   )
 }
