@@ -93,3 +93,16 @@ export const formatPlayTime = interval => {
   const second = (interval % 60).toString().padStart(2, "0");
   return `${minute}:${second}`;
 };
+
+const getRandomInt = (max) => {
+  return Math.floor(Math.random() * max)
+}
+export const shuffle = (list) => {
+  for (let i = 0;i < list.length; i++) {
+    let randomIndex = getRandomInt(list.length)
+    let temp = list[i];
+    list[i] = list[randomIndex]
+    list[randomIndex] = temp
+  }
+  return list
+}

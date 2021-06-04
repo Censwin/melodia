@@ -11,79 +11,166 @@ import {
 } from './store/actionCreators'
 import MiniPlayer from './miniPlayer'
 import NormalPlayer from './normalPlayer'
-import {getSongUrl, isEmptyObject} from '../../api/utils'
+import { getSongUrl, isEmptyObject, shuffle } from '../../api/utils'
 function Player(props) {
-  const { fullScreen, playing, currentIndex, currentSong: immutableCurrentSong, playList: immutablePlaylist } = props
-  const { toggleFullScreenDispatch, togglePlayingDispatch, changeCurrentIndexDispatch, changeCurrentDispatch } = props
+  const {
+    fullScreen,
+    playing,
+    currentIndex,
+    currentSong: immutableCurrentSong,
+    playList: immutablePlaylist,
+    mode, // 播放模式
+    sequencePlayList: immutableSequencePlayList
+  } = props
+  const {
+    toggleFullScreenDispatch,
+    togglePlayingDispatch,
+    changeCurrentIndexDispatch,
+    changeCurrentDispatch,
+    changeModeDispatch, // 修改播放模式
+    changePlayListDispatch, // 修改播放列表
+  } = props
+  let currentSong = immutableCurrentSong.toJS()
+  let playList = immutablePlaylist.toJS()
+  let sequencePlayList = immutableSequencePlayList.toJS()
+  //记录当前的歌曲，以便于下次重渲染时比对是否是一首歌
+  const [preSong, setPreSong] = useState({})
   //目前播放时间
-  const [currentTime, setCurrentTime] = useState(0);
+  const [currentTime, setCurrentTime] = useState(0)
   //歌曲总时长
-  const [duration, setDuration] = useState(0);
+  const [duration, setDuration] = useState(0)
   //歌曲播放进度
   let percent = isNaN(currentTime / duration) ? 0 : currentTime / duration;
+  
   const clickPlaying = (e, state) => {
-    e.stopPropagation();
-    togglePlayingDispatch(state);
+    e.stopPropagation()
+    togglePlayingDispatch(state)
   }
-  let currentSong = immutableCurrentSong.toJS();
-  let playList = immutablePlaylist.toJS()
-  const audioRef = useRef();
+
+  const audioRef = useRef()
   useEffect(() => {
-    if(!currentSong) return;
-    changeCurrentIndexDispatch(0);//currentIndex默认为-1，临时改成0
-    let current = playList[0];
-    changeCurrentDispatch(current);//赋值currentSong
-    audioRef.current.src = getSongUrl(current.id);
-    setTimeout(() => {
-      audioRef.current.play();
-    });
-    togglePlayingDispatch(true);//播放状态
-    setCurrentTime(0);//从头开始播放
-    setDuration((current.dt / 1000) | 0);//时长
+    // 临时 mock
+    changeCurrentIndexDispatch(0)
   }, [])
   useEffect(() => {
-    playing ? audioRef.current.play() : audioRef.current.pause()
-  }, [playing])
-  const updateTime = e => {
-    setCurrentTime(e.target.currentTime);
-  };
-  const onProgressChange = curPercent => {
-    const newTime = curPercent * duration;
-    setCurrentTime(newTime);
-    audioRef.current.currentTime = newTime;
-    if (!playing) {
-      togglePlayingDispatch(true);
+    if (
+      !playList.length ||
+      currentIndex === -1 ||
+      !playList[currentIndex] ||
+      playList[currentIndex].id === preSong.id
+    ) {
+      return
     }
-  };
+    // if(!currentSong) return;
+    let current = playList[currentIndex];
+    changeCurrentDispatch(current); //赋值currentSong
+    setPreSong(current);
+    audioRef.current.src = getSongUrl(current.id);
+    setTimeout(() => {
+      audioRef.current.play()
+    });
+    togglePlayingDispatch(true); //播放状态
+    setCurrentTime(0); //从头开始播放
+    setDuration((current.dt / 1000) | 0); //时长
+  }, [currentIndex])
+  useEffect(() => {
+    playing ? audioRef.current.play() : audioRef.current.pause();
+  }, [playing])
+  useEffect(() => { // 当前歌曲播完自动播放下一首
+    if (percent >= 1) {
+      nextSong()
+    }
+  }, [percent])
+  const updateTime = (e) => {
+    setCurrentTime(e.target.currentTime)
+  }
+  const onProgressChange = (curPercent) => {
+    const newTime = curPercent * duration
+    setCurrentTime(newTime)
+    audioRef.current.currentTime = newTime
+    if (!playing) {
+      togglePlayingDispatch(true)
+    }
+  }
+  const resetTime = () => {
+    audioRef.current.currentTime = 0
+    togglePlayingDispatch(true)
+    audioRef.current.play()
+  }
   const lastSong = () => {
-
+    if (playList.length === 1) {
+      resetTime()
+      return
+    }
+    const index = currentIndex < 1 ? 0 : currentIndex - 1
+    const item = playList[index]
+    if (!playing) togglePlayingDispatch(true)
+    changeCurrentIndexDispatch(index)
+    changeCurrentDispatch(item)
   }
   const nextSong = () => {
-
+    if (playList.length === 1) {
+      resetTime()
+      return
+    }
+    const index =
+      currentIndex < playList.length - 1 ? currentIndex + 1 : currentIndex
+    const item = playList[index]
+    if (!playing) togglePlayingDispatch(true)
+    changeCurrentIndexDispatch(index)
+    changeCurrentDispatch(item)
+  }
+  // 修改播放模式回调
+  const changeMode = () => {
+    const _mode = mode === 2 ? 0 : mode + 1; // 超过2从0开始
+    switch (_mode) {
+      // 原来case并不会生成块作用域
+      case 0: // 顺序播放
+        changePlayListDispatch(sequencePlayList)
+        break;
+      case 1: 
+        const newList = playList.filter((item, index) => index === currentIndex)
+        changePlayListDispatch(newList)
+        break; 
+      case 2:
+        const newList2 = shuffle(sequencePlayList)
+        changePlayListDispatch(newList2)
+        break;
+      default:
+        throw new Error('模式切换失败')
+        break;
+    }
+    changeModeDispatch(_mode)
   }
   return (
     <div>
-      {!isEmptyObject(currentSong) && <MiniPlayer
-        song={currentSong}
-        fullScreen={fullScreen}
-        toggleFullScreen={toggleFullScreenDispatch}
-        playing={playing}
-        clickPlaying={clickPlaying}
-        percent={percent}
-      />}
-      {!isEmptyObject(currentSong) && <NormalPlayer
-        song={currentSong}
-        fullScreen={fullScreen}
-        playing={playing}
-        duration={duration}//总时长
-        currentTime={currentTime}//播放时间
-        percent={percent}//进度
-        toggleFullScreen={toggleFullScreenDispatch}
-        clickPlaying={clickPlaying}
-        onProgressChange={onProgressChange}
-        lastSong={lastSong}
-        nextSong={nextSong}
-      />}
+      {!isEmptyObject(currentSong) && (
+        <MiniPlayer
+          song={currentSong}
+          fullScreen={fullScreen}
+          toggleFullScreen={toggleFullScreenDispatch}
+          playing={playing}
+          clickPlaying={clickPlaying}
+          percent={percent}
+        />
+      )}
+      {!isEmptyObject(currentSong) && (
+        <NormalPlayer
+          song={currentSong}
+          fullScreen={fullScreen}
+          playing={playing}
+          duration={duration} //总时长
+          currentTime={currentTime} //播放时间
+          percent={percent} //进度
+          toggleFullScreen={toggleFullScreenDispatch}
+          clickPlaying={clickPlaying}
+          onProgressChange={onProgressChange}
+          lastSong={lastSong}
+          nextSong={nextSong}
+          mode={mode}
+          changeMode={changeMode}
+        />
+      )}
       <audio ref={audioRef} onTimeUpdate={updateTime}></audio>
     </div>
   )
@@ -110,7 +197,7 @@ const mapDispatchToProps = (dispatch) => {
     toggleFullScreenDispatch(data) {
       dispatch(changeFullScreen(data))
     },
-    togglePlayListDispatch(data) {
+    togglePlayListDispatch(data) { // 是否显示播放列表
       dispatch(changeShowPlayList(data))
     },
     changeCurrentIndexDispatch(index) {
@@ -119,10 +206,10 @@ const mapDispatchToProps = (dispatch) => {
     changeCurrentDispatch(data) {
       dispatch(changeCurrentSong(data))
     },
-    changeModeDispatch(data) {
+    changeModeDispatch(data) { // 修改播放模式
       dispatch(changePlayMode(data))
     },
-    changePlayListDispatch(data) {
+    changePlayListDispatch(data) { // 修改播放列表
       dispatch(changePlayList(data))
     },
   }
