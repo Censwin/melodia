@@ -12,6 +12,7 @@ import {
 import MiniPlayer from './miniPlayer'
 import NormalPlayer from './normalPlayer'
 import { getSongUrl, isEmptyObject, shuffle } from '../../api/utils'
+import Toast from '../../baseUI/Toast'
 function Player(props) {
   const {
     fullScreen,
@@ -41,7 +42,10 @@ function Player(props) {
   const [duration, setDuration] = useState(0)
   //歌曲播放进度
   let percent = isNaN(currentTime / duration) ? 0 : currentTime / duration;
-  
+  // Toast 弹窗提示
+  const [modeText, setModeText] = useState('')
+  const toastRef = useRef(); // 访问Toast组件ref
+
   const clickPlaying = (e, state) => {
     e.stopPropagation()
     togglePlayingDispatch(state)
@@ -122,25 +126,31 @@ function Player(props) {
   }
   // 修改播放模式回调
   const changeMode = () => {
-    const _mode = mode === 2 ? 0 : mode + 1; // 超过2从0开始
+    // const _mode = mode === 2 ? 0 : mode + 1;
+    // const _mode = mode + 1 === 3 ? 0 : mode + 1;
+    const _mode = (mode + 1) % 3
     switch (_mode) {
       // 原来case并不会生成块作用域
       case 0: // 顺序播放
         changePlayListDispatch(sequencePlayList)
+        setModeText('顺序播放')
         break;
       case 1: 
         const newList = playList.filter((item, index) => index === currentIndex)
         changePlayListDispatch(newList)
+        setModeText('单曲循环')
         break; 
       case 2:
         const newList2 = shuffle(sequencePlayList)
         changePlayListDispatch(newList2)
+        setModeText('随机播放')
         break;
       default:
+        setModeText('切换失败')
         throw new Error('模式切换失败')
-        break;
     }
-    changeModeDispatch(_mode)
+    changeModeDispatch(_mode);
+    toastRef.current.show();
   }
   return (
     <div>
@@ -173,6 +183,7 @@ function Player(props) {
         />
       )}
       <audio ref={audioRef} onTimeUpdate={updateTime} onEnded={nextSong}></audio>
+      <Toast text={modeText} ref={toastRef}/>
     </div>
   )
 }

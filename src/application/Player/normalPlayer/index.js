@@ -15,7 +15,6 @@ import animations from 'create-keyframe-animation'
 import { prefixStyle, formatPlayTime } from '../../../api/utils'
 import ProgressBar from '../../../baseUI/progressBar'
 import { playMode } from '../../../api/config'
-
 function NormalPlayer(props) {
   const { song, fullScreen, playing, percent, duration, currentTime, mode } = props
   const {
@@ -107,6 +106,7 @@ function NormalPlayer(props) {
     }
     return content;
   };
+
   return (
     <CSSTransition
       classNames="normal"
