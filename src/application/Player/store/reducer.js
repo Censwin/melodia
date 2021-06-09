@@ -1,12 +1,11 @@
 import { fromJS } from 'immutable'
 import { playMode } from '../../../api/config'
 import * as actionTypes from './constants'
-import mockPlayList from './mock'
 const defaultState = fromJS({
   fullScreen: false, // 播放器是不是全屏状态
   playing: false, // 是否正在播放
-  sequencePlayList: mockPlayList, // 顺序列表 (因为之后会有随机模式，列表会乱序，因从拿这个保存顺序列表)
-  playList: mockPlayList,
+  sequencePlayList: [], // 顺序列表 (因为之后会有随机模式，列表会乱序，因从拿这个保存顺序列表)
+  playList: [],
   mode: playMode.sequence,// 播放模式
   currentIndex: -1, // 当前索引位置
   showPlayList: false, // 是否展示播放列表

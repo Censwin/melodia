@@ -15,15 +15,20 @@ import { HEADER_HEIGHT } from './../../api/config'
 import { getSingerInfo, changeEnterLoading } from './store/actionCreatores'
 import { connect } from 'react-redux'
 import Loading from '../../baseUI/loading';
-
+import MusicNote from "../../baseUI/mini-note";
 function Singer(props) {
   const [showStatus, setShowStatus] = useState(true)
+
+  const musicNoteRef = useRef();
+
+  const musicAnimation = (x, y) => {
+    musicNoteRef.current.startAnimation({ x, y });
+  };
   const {
     artist: immutableArtList,
     songsOfArtist: immutableSongs,
     enterLoading,
   } = props
-  console.log(enterLoading)
   const { getSingerDataDispatch } = props
   const artist = immutableArtList.toJS()
   const songs = immutableSongs.toJS()
@@ -31,6 +36,7 @@ function Singer(props) {
     songs,
     collectCount: songs.length,
     showCollect: false,
+    musicAnimation
   }
   const collectButton = useRef()
   const imageWrapper = useRef()
@@ -122,6 +128,7 @@ function Singer(props) {
           </Scroll>
         </SongListWrapper>
         { enterLoading ? <div><Loading></Loading></div> : null }
+        <MusicNote ref={musicNoteRef}></MusicNote>
       </Container>
     </CSSTransition>
   )

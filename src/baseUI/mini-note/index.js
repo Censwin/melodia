@@ -10,7 +10,7 @@ const Container = styled.div`
     margin-top: -10px;
     margin-left: -10px;
     color: ${style["theme-color"]};
-    font-size: 14px;
+    font-size: 100px;
     display: none;
     transition: transform 1s cubic-bezier(.62,-0.1,.86,.57);
     transform: translate3d(0, 0, 0);
@@ -62,23 +62,23 @@ const MusicNode = forwardRef((props, ref) => {
         item.style.left = x + 'px'
         item.style.top = y + 'px'
         item.style.display = 'inline-block';
-        setTimeout (() => {
-          item.running = true;
-          item.style[transform] = `translate3d(0, 750px, 0)`;
-          let icon = item.querySelector("div");
-          icon.style[transform] = `translate3d(-40px, 0, 0)`;
-        }, 20);
+        // setTimeout (() => {
+        //   item.running = true;
+        //   item.style[transform] = `translate3d(0, 750px, 0)`;
+        //   let icon = item.querySelector("div");
+        //   icon.style[transform] = `translate3d(-40px, 0, 0)`;
+        // }, 20);
         break;
       }
     }
   }
-  useImperativeHandle((ref) => {
+  useImperativeHandle(ref, () => {
     return {
       startAnimation
     }
   })
   return (
-    <Container ref={iconRef}></Container>
+    <Container ref={iconRef}>123123</Container>
   )
 })
 

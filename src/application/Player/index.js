@@ -52,10 +52,7 @@ function Player(props) {
   }
 
   const audioRef = useRef()
-  useEffect(() => {
-    // 临时 mock
-    changeCurrentIndexDispatch(0)
-  }, [])
+
   useEffect(() => {
     if (
       !playList.length ||

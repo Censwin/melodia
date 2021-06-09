@@ -10,11 +10,16 @@ import style from '../../assets/global-style'
 import { connect } from 'react-redux'
 import { getAlbunDetail, changeLoading } from './store'
 import Loading from '../../baseUI/loading/index';
+import MusicNote from "../../baseUI/mini-note";
 function Album(props) {
   const [showStatus, setShowStatus] = useState(true)
   const [isMarquee, setIsMarquee] = useState(false) // 跑马灯
   const [title, setTitle] = useState('歌单')
-
+  const musicNoteRef = useRef ();
+  const musicAnimation = (x, y) => {
+    musicNoteRef.current.startAnimation ({ x, y });
+  };
+  
   // 获取url中的参数
   const id = props.match.params.id
   const { getAlbunDetailData } = props
@@ -149,6 +154,7 @@ function Album(props) {
           </div>
         </Scroll> : null}
         {isLoading && <Loading></Loading>}
+        <MusicNote ref={musicNoteRef}></MusicNote>
       </Container>
     </CSSTransition>
   )
