@@ -11,6 +11,8 @@ import { connect } from 'react-redux'
 import { getAlbunDetail, changeLoading } from './store'
 import Loading from '../../baseUI/loading/index';
 import MusicNote from "../../baseUI/mini-note";
+
+import SongsListModule from '../SongList'
 function Album(props) {
   const [showStatus, setShowStatus] = useState(true)
   const [isMarquee, setIsMarquee] = useState(false) // 跑马灯
@@ -101,38 +103,44 @@ function Album(props) {
       </TopDesc>
     )
   }
-
+  const songsListProps = {
+    songs: currentAlbum.tracks,
+    collectCount: currentAlbum.subscribedCount,
+    showCollect: true,
+    musicAnimation
+  }
   const RenderSongList = () => {
     return (
-      <SongList>
-        <div className="first_line">
-          <div className="play_all">
-            <i className="iconfont">&#xe6e3;</i>
-            <span>
-              播放全部<span className="sum">(共{currentAlbum.tracks.length}首)</span>
-            </span>
-          </div>
-          <div className="markBill">
-            <i className="iconfont">&#xe62d;</i>
-            <span> 收藏 ({getCount(currentAlbum.subscribedCount)})</span>
-          </div>
-        </div>
-        <SongItem>
-          {currentAlbum.tracks.map((item, index) => {
-            return (
-              <li key={index}>
-                <span className="index">{index + 1}</span>
-                <div className="info">
-                  <span>{item.name}</span>
-                  <span>
-                    {getName(item.ar)} - {item.al.name}
-                  </span>
-                </div>
-              </li>
-            )
-          })}
-        </SongItem>
-      </SongList>
+      <SongsListModule {...songsListProps}/>
+      // <SongList>
+      //   <div className="first_line">
+      //     <div className="play_all">
+      //       <i className="iconfont">&#xe6e3;</i>
+      //       <span>
+      //         播放全部<span className="sum">(共{currentAlbum.tracks.length}首)</span>
+      //       </span>
+      //     </div>
+      //     <div className="markBill">
+      //       <i className="iconfont">&#xe62d;</i>
+      //       <span> 收藏 ({getCount(currentAlbum.subscribedCount)})</span>
+      //     </div>
+      //   </div>
+      //   <SongItem>
+      //     {currentAlbum.tracks.map((item, index) => {
+      //       return (
+      //         <li key={index}>
+      //           <span className="index">{index + 1}</span>
+      //           <div className="info">
+      //             <span>{item.name}</span>
+      //             <span>
+      //               {getName(item.ar)} - {item.al.name}
+      //             </span>
+      //           </div>
+      //         </li>
+      //       )
+      //     })}
+      //   </SongItem>
+      // </SongList>
     )
   }
 

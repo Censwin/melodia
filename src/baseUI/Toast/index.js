@@ -1,5 +1,5 @@
 import React, { useState, forwardRef, useImperativeHandle } from 'react'
-import styled from 'styled-components'
+import styled from 'styled-components/macro'
 import { CSSTransition } from 'react-transition-group'
 const ToastWrapper = styled.div`
   position: fixed;

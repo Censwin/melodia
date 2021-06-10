@@ -1,7 +1,7 @@
 import React, { forwardRef, useState,useEffect, useRef, useImperativeHandle, useMemo } from "react"
 import PropTypes from "prop-types"
 import BScroll from "better-scroll"
-import styled from 'styled-components';
+import styled from 'styled-components/macro'
 import Loading from '../loading';
 import { debounce } from "../../api/utils";
 import LoadingV2 from '../loading-v2';

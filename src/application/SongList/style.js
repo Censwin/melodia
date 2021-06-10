@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from 'styled-components/macro'
 import style from '../../assets/global-style'
 
 export const SongList = styled.div`

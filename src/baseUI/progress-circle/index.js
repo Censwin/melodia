@@ -1,5 +1,5 @@
 import React from 'react'
-import styled from 'styled-components'
+import styled from 'styled-components/macro'
 import style from '../../assets/global-style'
 
 const CircleWrapper = styled.div`

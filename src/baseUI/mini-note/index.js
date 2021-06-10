@@ -1,21 +1,22 @@
 import React, {useEffect, forwardRef, useImperativeHandle, useRef} from 'react'
-import styled  from 'styled-components'
+import styled  from 'styled-components/macro'
 import { prefixStyle } from '../../api/utils'
 import style from '../../assets/global-style'
 
 const Container = styled.div`
-  .icon-wrapper {
+  .icon_wrapper {
     position: fixed;
     z-index: 1000;
     margin-top: -10px;
     margin-left: -10px;
     color: ${style["theme-color"]};
-    font-size: 100px;
+    font-size: 14px;
+    font-weight: bold;
     display: none;
-    transition: transform 1s cubic-bezier(.62,-0.1,.86,.57);
+    transition: transform .3s cubic-bezier(0.68,-0.37, 0.71, 1.09);
     transform: translate3d(0, 0, 0);
     >div {
-      transition: transform 1s;
+      transition: transform .3s;
     }
   }
 `
@@ -25,7 +26,6 @@ const MusicNode = forwardRef((props, ref) => {
   // 最大音符数量
   const ICON_NUMBER = 3;
   const transform = prefixStyle("transform");
-
   // 使用原声DOM操作
   const createNode = (text) => {
     const template = `<div class="icon_wrapper">${text}</div>`
@@ -62,12 +62,12 @@ const MusicNode = forwardRef((props, ref) => {
         item.style.left = x + 'px'
         item.style.top = y + 'px'
         item.style.display = 'inline-block';
-        // setTimeout (() => {
-        //   item.running = true;
-        //   item.style[transform] = `translate3d(0, 750px, 0)`;
-        //   let icon = item.querySelector("div");
-        //   icon.style[transform] = `translate3d(-40px, 0, 0)`;
-        // }, 20);
+        setTimeout (() => {
+          item.running = true;
+          item.style[transform] = `translate3d(0, 300px, 0)  scale(.5, .5)`;
+          let icon = item.querySelector("div");
+          icon.style[transform] = `translate3d(80px, 0, 0)`;
+        }, 20);
         break;
       }
     }
@@ -78,7 +78,7 @@ const MusicNode = forwardRef((props, ref) => {
     }
   })
   return (
-    <Container ref={iconRef}>123123</Container>
+    <Container id="ttt1" ref={iconRef}></Container>
   )
 })
 

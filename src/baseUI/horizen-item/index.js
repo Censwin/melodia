@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, memo } from 'react';
-import styled from 'styled-components';
+import styled from 'styled-components/macro'
 import Scroll from '../scroll/index'
 import { PropTypes } from 'prop-types';
 import style from '../../assets/global-style';

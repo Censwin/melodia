@@ -19,6 +19,7 @@ export const MiniPlayerContainer = styled.div`
   position: fixed;
   bottom: 0;
   left: 0;
+  z-index:999;
   &.mini-enter {
     transform: translate3d (0, 100%, 0);
   }
