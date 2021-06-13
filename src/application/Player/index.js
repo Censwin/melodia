@@ -45,20 +45,21 @@ function Player(props) {
   // Toast 弹窗提示
   const [modeText, setModeText] = useState('')
   const toastRef = useRef(); // 访问Toast组件ref
-
   const clickPlaying = (e, state) => {
     e.stopPropagation()
     togglePlayingDispatch(state)
   }
 
-  const audioRef = useRef()
+  const audioRef = useRef();
+  const songReady = useRef(true);
 
   useEffect(() => {
     if (
       !playList.length ||
       currentIndex === -1 ||
       !playList[currentIndex] ||
-      playList[currentIndex].id === preSong.id
+      playList[currentIndex].id === preSong.id ||
+      !songReady.current
     ) {
       return
     }
@@ -66,14 +67,18 @@ function Player(props) {
     let current = playList[currentIndex];
     changeCurrentDispatch(current); //赋值currentSong
     setPreSong(current);
+    songReady.current = false; // 把标志位置为 false, 表示现在新的资源没有缓冲完成，不能切歌
     audioRef.current.src = getSongUrl(current.id);
-    setTimeout(() => {
-      audioRef.current.play()
+    setTimeout (() => {
+      // 注意，play 方法返回的是一个 promise 对象
+      audioRef.current.play().then(() => {
+        songReady.current = true;
+      });
     });
     togglePlayingDispatch(true); //播放状态
     setCurrentTime(0); //从头开始播放
     setDuration((current.dt / 1000) | 0); //时长
-  }, [currentIndex])
+  }, [playList, currentIndex])
   useEffect(() => {
     playing ? audioRef.current.play() : audioRef.current.pause();
   }, [playing])
@@ -149,6 +154,11 @@ function Player(props) {
     changeModeDispatch(_mode);
     toastRef.current.show();
   }
+  const handleError = () => {
+    songReady.current = true;
+    alert ("播放出错");
+  };
+  
   return (
     <div>
       {!isEmptyObject(currentSong) && (
@@ -179,7 +189,7 @@ function Player(props) {
           changeMode={changeMode}
         />
       )}
-      <audio ref={audioRef} onTimeUpdate={updateTime} onEnded={nextSong}></audio>
+      <audio ref={audioRef} onTimeUpdate={updateTime} onEnded={nextSong} onError={handleError}></audio>
       <Toast text={modeText} ref={toastRef}/>
     </div>
   )

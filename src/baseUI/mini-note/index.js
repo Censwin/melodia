@@ -13,10 +13,10 @@ const Container = styled.div`
     font-size: 14px;
     font-weight: bold;
     display: none;
-    transition: transform .3s cubic-bezier(0.68,-0.37, 0.71, 1.09);
+    transition: transform 1s cubic-bezier(0.68,-0.37, 0.71, 1.09);
     transform: translate3d(0, 0, 0);
     >div {
-      transition: transform .3s;
+      transition: transform 1s;
     }
   }
 `
