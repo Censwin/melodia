@@ -13,6 +13,7 @@ import MiniPlayer from './miniPlayer'
 import NormalPlayer from './normalPlayer'
 import { getSongUrl, isEmptyObject, shuffle } from '../../api/utils'
 import Toast from '../../baseUI/Toast'
+import PlayListPanel from './play-list'
 function Player(props) {
   const {
     fullScreen,
@@ -21,7 +22,8 @@ function Player(props) {
     currentSong: immutableCurrentSong,
     playList: immutablePlaylist,
     mode, // 播放模式
-    sequencePlayList: immutableSequencePlayList
+    sequencePlayList: immutableSequencePlayList,
+    showPlayList
   } = props
   const {
     toggleFullScreenDispatch,
@@ -30,6 +32,7 @@ function Player(props) {
     changeCurrentDispatch,
     changeModeDispatch, // 修改播放模式
     changePlayListDispatch, // 修改播放列表
+    togglePlayListDispatch
   } = props
   let currentSong = immutableCurrentSong.toJS()
   let playList = immutablePlaylist.toJS()
@@ -169,7 +172,7 @@ function Player(props) {
           playing={playing}
           clickPlaying={clickPlaying}
           percent={percent}
-          nextSong={nextSong}
+          togglePlayList={togglePlayListDispatch}
         />
       )}
       {!isEmptyObject(currentSong) && (
@@ -187,10 +190,12 @@ function Player(props) {
           nextSong={nextSong}
           mode={mode}
           changeMode={changeMode}
+          togglePlayList={togglePlayListDispatch}
         />
       )}
       <audio ref={audioRef} onTimeUpdate={updateTime} onEnded={nextSong} onError={handleError}></audio>
       <Toast text={modeText} ref={toastRef}/>
+      <PlayListPanel modeText={modeText}/>
     </div>
   )
 }
@@ -204,7 +209,7 @@ const mapStateToProps = (state) => ({
   mode: state.getIn(['player', 'mode']),
   currentIndex: state.getIn(['player', 'currentIndex']),
   playList: state.getIn(['player', 'playList']),
-  sequencePlayList: state.getIn(['player', 'sequencePlayList']),
+  sequencePlayList: state.getIn(['player', 'sequencePlayList'])
 })
 
 // 映射 dispatch 到 props 上
@@ -230,7 +235,7 @@ const mapDispatchToProps = (dispatch) => {
     },
     changePlayListDispatch(data) { // 修改播放列表
       dispatch(changePlayList(data))
-    },
+    }
   }
 }
 

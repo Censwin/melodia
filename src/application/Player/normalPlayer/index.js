@@ -16,7 +16,7 @@ import { prefixStyle, formatPlayTime } from '../../../api/utils'
 import ProgressBar from '../../../baseUI/progressBar'
 import { playMode } from '../../../api/config'
 function NormalPlayer(props) {
-  const { song, fullScreen, playing, percent, duration, currentTime, mode } = props
+  const { song, fullScreen, playing, percent, duration, currentTime, mode, togglePlayList } = props
   const {
     toggleFullScreen,
     clickPlaying,
@@ -106,7 +106,10 @@ function NormalPlayer(props) {
     }
     return content;
   };
-
+  const handleTogglePlayList = (e) => {
+    togglePlayList (true);
+    e.stopPropagation ();
+  };
   return (
     <CSSTransition
       classNames="normal"
@@ -176,7 +179,7 @@ function NormalPlayer(props) {
             <div className="icon i-right" onClick={nextSong}>
               <i className="iconfont">&#xe718;</i>
             </div>
-            <div className="icon i-right">
+            <div className="icon i-right" onClick={handleTogglePlayList}>
               <i className="iconfont">&#xe640;</i>
             </div>
           </Operators>
