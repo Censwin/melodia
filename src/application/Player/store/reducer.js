@@ -1,6 +1,11 @@
 import { fromJS } from 'immutable'
 import { playMode } from '../../../api/config'
 import * as actionTypes from './constants'
+
+const handleDeleteSong = () => {
+  
+}
+
 const defaultState = fromJS({
   fullScreen: false, // 播放器是不是全屏状态
   playing: false, // 是否正在播放
@@ -30,6 +35,8 @@ export default (state = defaultState, action) => {
       return state.set ('currentIndex', action.data);
     case actionTypes.SET_SHOW_PLAYLIST:
       return state.set ('showPlayList', action.data);
+    case actionTypes.DELETE_SONG:
+      return handleDeleteSong(state, action.data)
     default:
       return state;
   }

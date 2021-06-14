@@ -58,6 +58,7 @@ export const ListContainer = styled.ul`
     .modetext {
       padding-left: 5px;
       flex: 1;
+      font-size: ${style['font-size-m']};
     }
   }
   .playIcon {

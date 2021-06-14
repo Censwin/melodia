@@ -159,7 +159,8 @@ function Player(props) {
   }
   const handleError = () => {
     songReady.current = true;
-    alert ("播放出错");
+    console.error("<播放出错>")
+    // alert ("播放出错");
   };
   
   return (
@@ -195,7 +196,7 @@ function Player(props) {
       )}
       <audio ref={audioRef} onTimeUpdate={updateTime} onEnded={nextSong} onError={handleError}></audio>
       <Toast text={modeText} ref={toastRef}/>
-      <PlayListPanel modeText={modeText}/>
+      <PlayListPanel changeMode={changeMode}/>
     </div>
   )
 }
