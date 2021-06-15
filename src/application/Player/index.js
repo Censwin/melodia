@@ -11,7 +11,7 @@ import {
 } from './store/actionCreators'
 import MiniPlayer from './miniPlayer'
 import NormalPlayer from './normalPlayer'
-import { getSongUrl, isEmptyObject, shuffle } from '../../api/utils'
+import { getSongUrl, isEmptyObject, shuffle, findIndex } from '../../api/utils'
 import Toast from '../../baseUI/Toast'
 import PlayListPanel from './play-list'
 function Player(props) {
@@ -138,6 +138,8 @@ function Player(props) {
       // 原来case并不会生成块作用域
       case 0: // 顺序播放
         changePlayListDispatch(sequencePlayList)
+        const index = findIndex(currentSong, sequencePlayList)
+        changeCurrentIndexDispatch(index)
         setModeText('顺序播放')
         break;
       case 1: 
@@ -147,7 +149,9 @@ function Player(props) {
         break; 
       case 2:
         const newList2 = shuffle(sequencePlayList)
+        const index2 = findIndex(currentSong, newList2)
         changePlayListDispatch(newList2)
+        changeCurrentIndexDispatch(index2)
         setModeText('随机播放')
         break;
       default:

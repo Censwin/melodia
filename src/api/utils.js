@@ -106,3 +106,7 @@ export const shuffle = (list) => {
   }
   return list
 }
+
+export const findIndex = (current, list) => {
+  return list.findIndex(item => item.id === current.id)
+}

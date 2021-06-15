@@ -4,7 +4,7 @@ import { CSSTransition } from 'react-transition-group'
 const ToastWrapper = styled.div`
   position: fixed;
   bottom: 0;
-  z-index: 1000;
+  z-index: 2000;
   width: 100%;
   height: 50px;
   &.drop-enter {
