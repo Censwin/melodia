@@ -14,6 +14,7 @@ import {
 } from '../store/actionCreators'
 import { playMode } from '../../../api/config'
 import Scroll from '../../../baseUI/scroll'
+import Confirm from '../../../baseUI/confirm'
 
 function PlayList(props) {
   console.log(props);
@@ -133,6 +134,7 @@ function PlayList(props) {
         style={{ display: isShow ? 'block' : 'none' }}
         onClick={e => e.stopPropagation()}
       >
+        <Confirm />
         <div className="list_wrapper" ref={listWrapperRef}>
           <ScrollWrapper>
             <ListContainer>
