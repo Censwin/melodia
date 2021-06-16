@@ -166,7 +166,6 @@ function Player(props) {
     console.error("<播放出错>")
     // alert ("播放出错");
   };
-  
   return (
     <div>
       {!isEmptyObject(currentSong) && (

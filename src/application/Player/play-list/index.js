@@ -2,7 +2,7 @@ import React, { useState, useRef, useCallback } from 'react'
 import { connect } from 'react-redux'
 import { CSSTransition } from 'react-transition-group'
 import { PlayListWrapper, ScrollWrapper, ListContainer } from './style'
-import { prefixStyle, getName } from './../../../api/utils'
+import { prefixStyle, getName, findIndex } from './../../../api/utils'
 import {
   changeShowPlayList,
   changeCurrentIndex,
@@ -22,7 +22,8 @@ function PlayList(props) {
     playListData: playListDataImmutable,
     currentIndex,
     mode,
-    playing
+    playing,
+    sequencePlayList: sequencePlayListImmu
   } = props
   const {
     togglePlayListDispatch,
@@ -31,9 +32,11 @@ function PlayList(props) {
     changeModeDispatch,
     togglePlayingDispatch,
     changeMode,
-    deleteSongDispatch
+    deleteSongDispatch,
+    toggleSequenceListDispatch
   } = props;
   const playListData = playListDataImmutable.toJS()
+  const sequencePlayList = sequencePlayListImmu.toJS()
   const playListRef = useRef()
   const listWrapperRef = useRef()
   const [isShow, setIsShow] = useState(false)
@@ -111,7 +114,8 @@ function PlayList(props) {
     changeMode()
   }
   const handleDeleteSong = (e, item) => {
-    // deleteSongDispatch
+    e.stopPropagation()
+    deleteSongDispatch(item)
   }
   return (
     <CSSTransition
