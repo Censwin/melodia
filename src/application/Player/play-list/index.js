@@ -10,14 +10,14 @@ import {
   changePlayMode,
   changePlayList,
   changePlayingState,
-   deleteSong
+  deleteSong,
+  clearSongs
 } from '../store/actionCreators'
 import { playMode } from '../../../api/config'
 import Scroll from '../../../baseUI/scroll'
 import Confirm from '../../../baseUI/confirm'
 
 function PlayList(props) {
-  console.log(props);
   const {
     showPlayList,
     playListData: playListDataImmutable,
@@ -34,7 +34,8 @@ function PlayList(props) {
     togglePlayingDispatch,
     changeMode,
     deleteSongDispatch,
-    toggleSequenceListDispatch
+    toggleSequenceListDispatch,
+    clearSongsDispatch
   } = props;
   const playListData = playListDataImmutable.toJS()
   const sequencePlayList = sequencePlayListImmu.toJS()
@@ -105,18 +106,31 @@ function PlayList(props) {
       className="iconfont"
       dangerouslySetInnerHTML={{ __html: content }}
     ></i>
-    <span className="modetext" onClick={_ => handleChangeMode()}>{text}</span>
-    <span className="delete">
+    <span className="modetext" onClick={_ => changeMode()}>{text}</span>
+    <span className="delete" onClick={e => handleShowConfirm(e)}>
       <i className="iconfont">&#xe63d;</i>
     </span>
   </li>)
   }
-  const handleChangeMode = _ => {
-    changeMode()
-  }
+  // const handleChangeMode = _ => {
+  //   changeMode()
+  // }
   const handleDeleteSong = (e, item) => {
     e.stopPropagation()
     deleteSongDispatch(item)
+  }
+  // 删除及确认
+  const confirmRef = useRef()
+  const handleShowConfirm = (e) => {
+    e.stopPropagation()
+    confirmRef.current.show()
+  }
+  const deleteAllSong = () => {
+    clearSongsDispatch()
+  }
+  const confirmProps = {
+    text: '是否删除全部歌曲？',
+    handleConfirm: deleteAllSong
   }
   return (
     <CSSTransition
@@ -130,11 +144,9 @@ function PlayList(props) {
     >
       <PlayListWrapper
         ref={playListRef}
-        onClick={() => togglePlayListDispatch(false)}
+        onClick={e => {e.stopPropagation();togglePlayListDispatch(false)}}
         style={{ display: isShow ? 'block' : 'none' }}
-        onClick={e => e.stopPropagation()}
       >
-        <Confirm />
         <div className="list_wrapper" ref={listWrapperRef}>
           <ScrollWrapper>
             <ListContainer>
@@ -159,6 +171,7 @@ function PlayList(props) {
             </ListContainer>
           </ScrollWrapper>
         </div>
+        <Confirm ref={confirmRef} {...confirmProps}/>
       </PlayListWrapper>
     </CSSTransition>
   )
@@ -196,6 +209,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     deleteSongDispatch(data) {
       dispatch(deleteSong(data))
+    },
+    clearSongsDispatch() {
+      dispatch(clearSongs())
     }
   }
 }

@@ -16,6 +16,15 @@ const handleDeleteSong = (state, item) => {
     .set('sequencePlayList', fromJS(newSequence))
     .set('currentIndex', currentIndex)
 }
+const handleClearSongs = (state) => {
+  return state
+    .set('playList', fromJS([]))
+    .set('sequencePlayList', fromJS({}))
+    .set('currentIndex', -1)
+    .set('showPlayList', false)
+    .set('currentSong', fromJS({}))
+    .set('playing', false)
+}
 
 const defaultState = fromJS({
   fullScreen: false, // 播放器是不是全屏状态
@@ -48,6 +57,8 @@ export default (state = defaultState, action) => {
       return state.set('showPlayList', action.data)
     case actionTypes.DELETE_SONG:
       return handleDeleteSong(state, action.data)
+    case actionTypes.CLEAR_SONGS:
+      return handleClearSongs(state)
     default:
       return state
   }
