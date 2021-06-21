@@ -171,8 +171,11 @@ function Player(props) {
   // 获取歌词信息
   const lyricContent = useRef(); // 因为在函数式组件里没有了this来存放一些实例的变量，所以React建议使用useRef来存放一些会发生变化的值
   const getLyric = (id) => {
+    let val = ''
     getSongLyric(id).then(res => {
-      if (!res.lrc.lyric) {
+      val = res.lrc.lyric
+      console.log(val);
+      if (!val) {
         lyricContent.current = null
         return;
       }
