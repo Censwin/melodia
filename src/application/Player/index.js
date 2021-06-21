@@ -14,6 +14,7 @@ import NormalPlayer from './normalPlayer'
 import { getSongUrl, isEmptyObject, shuffle, findIndex } from '../../api/utils'
 import Toast from '../../baseUI/Toast'
 import PlayListPanel from './play-list'
+import {getSongLyric} from '../../api/request'
 function Player(props) {
   const {
     fullScreen,
@@ -79,6 +80,7 @@ function Player(props) {
       });
     });
     togglePlayingDispatch(true); //播放状态
+    getLyric(current.id)
     setCurrentTime(0); //从头开始播放
     setDuration((current.dt / 1000) | 0); //时长
   }, [playList, currentIndex])
@@ -166,6 +168,19 @@ function Player(props) {
     console.error("<播放出错>")
     // alert ("播放出错");
   };
+  // 获取歌词信息
+  const lyricContent = useRef(); // 因为在函数式组件里没有了this来存放一些实例的变量，所以React建议使用useRef来存放一些会发生变化的值
+  const getLyric = (id) => {
+    getSongLyric(id).then(res => {
+      if (!res.lrc.lyric) {
+        lyricContent.current = null
+        return;
+      }
+    }).catch (() => {
+      songReady.current = true;
+      audioRef.current.play ();
+    });
+  };
   return (
     <div>
       {!isEmptyObject(currentSong) && (
@@ -239,7 +254,8 @@ const mapDispatchToProps = (dispatch) => {
     },
     changePlayListDispatch(data) { // 修改播放列表
       dispatch(changePlayList(data))
-    }
+    },
+
   }
 }
 
