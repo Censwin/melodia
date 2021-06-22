@@ -14,7 +14,8 @@ import NormalPlayer from './normalPlayer'
 import { getSongUrl, isEmptyObject, shuffle, findIndex } from '../../api/utils'
 import Toast from '../../baseUI/Toast'
 import PlayListPanel from './play-list'
-import {getSongLyric} from '../../api/request'
+import { getSongLyric } from '../../api/request'
+import Lyric from './../../api/lyric-creator'
 function Player(props) {
   const {
     fullScreen,
@@ -24,7 +25,7 @@ function Player(props) {
     playList: immutablePlaylist,
     mode, // 播放模式
     sequencePlayList: immutableSequencePlayList,
-    showPlayList
+    showPlayList,
   } = props
   const {
     toggleFullScreenDispatch,
@@ -33,7 +34,7 @@ function Player(props) {
     changeCurrentDispatch,
     changeModeDispatch, // 修改播放模式
     changePlayListDispatch, // 修改播放列表
-    togglePlayListDispatch
+    togglePlayListDispatch,
   } = props
   let currentSong = immutableCurrentSong.toJS()
   let playList = immutablePlaylist.toJS()
@@ -45,17 +46,20 @@ function Player(props) {
   //歌曲总时长
   const [duration, setDuration] = useState(0)
   //歌曲播放进度
-  let percent = isNaN(currentTime / duration) ? 0 : currentTime / duration;
+  let percent = isNaN(currentTime / duration) ? 0 : currentTime / duration
   // Toast 弹窗提示
   const [modeText, setModeText] = useState('')
-  const toastRef = useRef(); // 访问Toast组件ref
+  const toastRef = useRef() // 访问Toast组件ref
   const clickPlaying = (e, state) => {
     e.stopPropagation()
     togglePlayingDispatch(state)
+    if (lyricContent.current) {
+      lyricContent.current.togglePlay(currentTime*1000);
+    }
   }
 
-  const audioRef = useRef();
-  const songReady = useRef(true);
+  const audioRef = useRef()
+  const songReady = useRef(true)
 
   useEffect(() => {
     if (
@@ -68,24 +72,24 @@ function Player(props) {
       return
     }
     // if(!currentSong) return;
-    let current = playList[currentIndex];
-    changeCurrentDispatch(current); //赋值currentSong
-    setPreSong(current);
-    songReady.current = false; // 把标志位置为 false, 表示现在新的资源没有缓冲完成，不能切歌
-    audioRef.current.src = getSongUrl(current.id);
-    setTimeout (() => {
+    let current = playList[currentIndex]
+    changeCurrentDispatch(current) //赋值currentSong
+    setPreSong(current)
+    songReady.current = false // 把标志位置为 false, 表示现在新的资源没有缓冲完成，不能切歌
+    audioRef.current.src = getSongUrl(current.id)
+    setTimeout(() => {
       // 注意，play 方法返回的是一个 promise 对象
       audioRef.current.play().then(() => {
-        songReady.current = true;
-      });
-    });
-    togglePlayingDispatch(true); //播放状态
+        songReady.current = true
+      })
+    })
+    togglePlayingDispatch(true) //播放状态
     getLyric(current.id)
-    setCurrentTime(0); //从头开始播放
-    setDuration((current.dt / 1000) | 0); //时长
+    setCurrentTime(0) //从头开始播放
+    setDuration((current.dt / 1000) | 0) //时长
   }, [playList, currentIndex])
   useEffect(() => {
-    playing ? audioRef.current.play() : audioRef.current.pause();
+    playing ? audioRef.current.play() : audioRef.current.pause()
   }, [playing])
   // useEffect(() => { // 当前歌曲播完自动播放下一首
   //   if (percent >= 1) {
@@ -101,6 +105,9 @@ function Player(props) {
     audioRef.current.currentTime = newTime
     if (!playing) {
       togglePlayingDispatch(true)
+    }
+    if (lyricContent.current) {
+      lyricContent.current.seek (newTime * 1000);
     }
   }
   const resetTime = () => {
@@ -143,47 +150,63 @@ function Player(props) {
         const index = findIndex(currentSong, sequencePlayList)
         changeCurrentIndexDispatch(index)
         setModeText('顺序播放')
-        break;
-      case 1: 
+        break
+      case 1:
         const newList = playList.filter((item, index) => index === currentIndex)
         changePlayListDispatch(newList)
         setModeText('单曲循环')
-        break; 
+        break
       case 2:
         const newList2 = shuffle(sequencePlayList)
         const index2 = findIndex(currentSong, newList2)
         changePlayListDispatch(newList2)
         changeCurrentIndexDispatch(index2)
         setModeText('随机播放')
-        break;
+        break
       default:
         setModeText('切换失败')
         throw new Error('模式切换失败')
     }
-    changeModeDispatch(_mode);
-    toastRef.current.show();
+    changeModeDispatch(_mode)
+    toastRef.current.show()
   }
   const handleError = () => {
-    songReady.current = true;
-    console.error("<播放出错>")
+    songReady.current = true
+    console.error('<播放出错>')
     // alert ("播放出错");
-  };
+  }
   // 获取歌词信息
-  const lyricContent = useRef(); // 因为在函数式组件里没有了this来存放一些实例的变量，所以React建议使用useRef来存放一些会发生变化的值
+  const lyricContent = useRef() // 因为在函数式组件里没有了this来存放一些实例的变量，所以React建议使用useRef来存放一些会发生变化的值
+  const [currentPlayingLyric, setPlayingLyric] = useState('')
+  const currentLineNum = useRef (0);
+  const handleLyric = ({ lineNum, txt }) => {
+    if (!lyricContent.current) return
+    currentLineNum.current = lineNum
+    setPlayingLyric(txt)
+  }
   const getLyric = (id) => {
-    let val = ''
-    getSongLyric(id).then(res => {
-      val = res.lrc.lyric
-      console.log(val);
-      if (!val) {
-        lyricContent.current = null
-        return;
-      }
-    }).catch (() => {
-      songReady.current = true;
-      audioRef.current.play ();
-    });
-  };
+    let lyric = ''
+    if (lyricContent.current) {
+      lyricContent.current.stop()
+    }
+    // 避免 songReady 恒为 false 的情况
+    getSongLyric(id)
+      .then((data) => {
+        lyric = data.lrc.lyric
+        if (!lyric) {
+          lyricContent.current = null
+          return
+        }
+        lyricContent.current = new Lyric(lyric, handleLyric)
+        lyricContent.current.play()
+        currentLineNum.current = 0
+        lyricContent.current.seek(0)
+      })
+      .catch(() => {
+        songReady.current = true
+        audioRef.current.play()
+      })
+  }
   return (
     <div>
       {!isEmptyObject(currentSong) && (
@@ -213,11 +236,19 @@ function Player(props) {
           mode={mode}
           changeMode={changeMode}
           togglePlayList={togglePlayListDispatch}
+          currentLyric={lyricContent.current}
+          currentPlayingLyric={currentPlayingLyric}
+          currentLineNum={currentLineNum.current}
         />
       )}
-      <audio ref={audioRef} onTimeUpdate={updateTime} onEnded={nextSong} onError={handleError}></audio>
-      <Toast text={modeText} ref={toastRef}/>
-      <PlayListPanel changeMode={changeMode}/>
+      <audio
+        ref={audioRef}
+        onTimeUpdate={updateTime}
+        onEnded={nextSong}
+        onError={handleError}
+      ></audio>
+      <Toast text={modeText} ref={toastRef} />
+      <PlayListPanel changeMode={changeMode} />
     </div>
   )
 }
@@ -231,7 +262,7 @@ const mapStateToProps = (state) => ({
   mode: state.getIn(['player', 'mode']),
   currentIndex: state.getIn(['player', 'currentIndex']),
   playList: state.getIn(['player', 'playList']),
-  sequencePlayList: state.getIn(['player', 'sequencePlayList'])
+  sequencePlayList: state.getIn(['player', 'sequencePlayList']),
 })
 
 // 映射 dispatch 到 props 上
@@ -243,7 +274,8 @@ const mapDispatchToProps = (dispatch) => {
     toggleFullScreenDispatch(data) {
       dispatch(changeFullScreen(data))
     },
-    togglePlayListDispatch(data) { // 是否显示播放列表
+    togglePlayListDispatch(data) {
+      // 是否显示播放列表
       dispatch(changeShowPlayList(data))
     },
     changeCurrentIndexDispatch(index) {
@@ -252,13 +284,14 @@ const mapDispatchToProps = (dispatch) => {
     changeCurrentDispatch(data) {
       dispatch(changeCurrentSong(data))
     },
-    changeModeDispatch(data) { // 修改播放模式
+    changeModeDispatch(data) {
+      // 修改播放模式
       dispatch(changePlayMode(data))
     },
-    changePlayListDispatch(data) { // 修改播放列表
+    changePlayListDispatch(data) {
+      // 修改播放列表
       dispatch(changePlayList(data))
     },
-
   }
 }
 
