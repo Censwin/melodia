@@ -5,7 +5,8 @@ import Singers from '../application/Singers';
 import Rank from '../application/Rank';
 import Home from '../application/Home';
 import Album from '../application/Album';
-import Singer from '../application/Singer'
+import Singer from '../application/Singer';
+import Mine from '../application/Mine'
 export default [
   {
     path: "/",
@@ -47,6 +48,11 @@ export default [
             component: Album
           }
         ]
+      },
+      {
+        path: "/mine",
+        component: Mine,
+        exact: true
       }
     ]
   }

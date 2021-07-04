@@ -14,8 +14,8 @@ function Home(props){
   return (
     <div>
       <Top>
-        <span className="iconfont menu">&#xe65c;</span>
-        <span className="title">Web App</span>
+        <span className="iconfont menu" onClick={() => props.history.push('/mine')}>&#xe619;</span>
+        <span className="title">Melodia</span>
         <span className="iconfont search">&#xe62b;</span>
       </Top>
       <Tab>
