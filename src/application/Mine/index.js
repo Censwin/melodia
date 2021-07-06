@@ -23,6 +23,7 @@ function Mine(props) {
     },
     [transform],
   )
+
   return (
     <CSSTransition
       classNames="fly"
@@ -40,8 +41,13 @@ function Mine(props) {
             e.stopPropagation()
           }}
         >
-          <span></span>
-          <h1></h1>
+          <div className="loginStatus">
+            <span className="iconfont menu">&#xe619;</span>
+            <span className="userName" onClick={() =>  props.history.push('/login')}>{`立即登录 >`}</span>
+          </div>
+          <div className="advertising">
+            <p>广告位招租</p>
+          </div>
         </Wrapper>
       </Container>
     </CSSTransition>

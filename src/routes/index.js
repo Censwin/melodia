@@ -7,6 +7,7 @@ import Home from '../application/Home';
 import Album from '../application/Album';
 import Singer from '../application/Singer';
 import Mine from '../application/Mine'
+import Login from '../application/Login'
 export default [
   {
     path: "/",
@@ -53,7 +54,12 @@ export default [
         path: "/mine",
         component: Mine,
         exact: true
-      }
+      },
+      {
+        path: "/login",
+        component: Login,
+        exact: true
+      },
     ]
   }
 ]
