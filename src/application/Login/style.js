@@ -40,6 +40,7 @@ export const Container = styled.div`
       flex-direction: column;
       justify-content: center;
       align-items: center;
+      padding-bottom: 4em;
       .submit-btn {
         width: 90%;
         height: 2.5em;
@@ -48,6 +49,25 @@ export const Container = styled.div`
         background-color: ${style['font-color-light']};
         color: ${style['theme-color']};
         border-radius: 2.5em;
+        margin-top: 3em;
+      }
+      input {
+        width: 80%;
+        border: none;
+        height: 3em;
+        text-align: center;
+        background: none;
+        border-bottom: 1px solid ${style['background-color-shadow']};
+        outline: none;
+        margin-top: 2px;
+        color: ${style['font-color-light']};
+        &:focus {
+          border: none;
+          border-bottom: 1px solid ${style['background-color-shadow']};
+        }
+        &::placeholder {
+          color: ${style['font-color-desc']};
+        }
       }
     }
 `

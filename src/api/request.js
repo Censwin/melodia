@@ -31,3 +31,12 @@ export const getSingerInfoRequest = id => {
 export const getSongLyric = id => {
   return axiosInstance.get(`/lyric?id=${id}`)
 }
+
+export const loginRequest = params => {
+  const {account, pwd} = params
+  return axiosInstance.get(`/login?email=${account}&password=${pwd}`)
+}
+
+export const logoutRequest = _ => {
+  return axiosInstance.get('/logout')
+}

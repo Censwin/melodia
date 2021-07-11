@@ -31,9 +31,24 @@ export const Wrapper = styled.div`
   background-color: ${style['background-color']};
   display: flex;
   flex-direction: column;
+  position: relative;
   .loginStatus {
-    font-size: ${style['font-size-l']};
+    font-size: ${style['font-size-m']};
     padding: 1.5em;
+    display: flex;
+    align-items: center;
+    .header_wrapper {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      overflow: hidden;
+      display: inline-block;
+      margin-right: .5em;
+      img {
+        max-width: 100%;
+        vertical-align: middle;
+      }
+    }
   }
   .advertising {
     width: 90%;
@@ -51,5 +66,16 @@ export const Wrapper = styled.div`
       font-size: ${style['font-size-ll']};
       color: #fff;
     }
+  }
+  .logoutBtn {
+    width: 90%;
+    height: 2.5em;
+    line-height: 2.5em;
+    text-align: center;
+    background-color: ${style['font-color-light']};
+    color: ${style['theme-color']};
+    border-radius: .5em;
+    position: absolute;
+    bottom: 1em;
   }
 `

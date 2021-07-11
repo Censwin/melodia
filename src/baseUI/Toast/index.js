@@ -29,7 +29,6 @@ const ToastWrapper = styled.div`
   }
 `
 const Toast = forwardRef((props, ref) => {
-  console.log('toast  render');
   const [show, setShow] = useState(false)
   const [timer, setTimer] = useState('')
   const { text } = props
