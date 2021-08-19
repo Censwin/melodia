@@ -8,6 +8,8 @@ import Album from '../application/Album';
 import Singer from '../application/Singer';
 import Mine from '../application/Mine'
 import Login from '../application/Login'
+import Search from '../application/Search';
+
 export default [
   {
     path: "/",
@@ -60,6 +62,11 @@ export default [
         component: Login,
         exact: true
       },
+      {
+        path: "/search",
+        exact: true,
+        component: Search
+      }
     ]
   }
 ]
