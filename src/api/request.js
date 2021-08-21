@@ -40,3 +40,17 @@ export const loginRequest = params => {
 export const logoutRequest = _ => {
   return axiosInstance.get('/logout')
 }
+export const getHotKeyWordsRequest = () => {
+  return axiosInstance.get (`/search/hot`);
+};
+
+export const getSuggestListRequest = query => {
+  return axiosInstance.get (`/search/suggest?keywords=${query}`);
+};
+
+export const getResultSongsListRequest = query => {
+  return axiosInstance.get (`/search?keywords=${query}`);
+};
+export const getSongDetailRequest = id => {
+  return axiosInstance.get (`/song/detail?ids=${id}`);
+};

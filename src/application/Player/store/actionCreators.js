@@ -12,7 +12,7 @@ import {
   CLEAR_SONGS
 } from './constants'
 import { fromJS } from 'immutable'
-
+import { getSongDetailRequest } from '../../../api/request';
 export const changeCurrentSong = (data) => ({
   type: SET_CURRENT_SONG,
   data: fromJS(data),
@@ -61,3 +61,16 @@ export const deleteSong = (data) => ({
 export const clearSongs = () => ({
   type: CLEAR_SONGS,
 })
+
+export const insertSong = (data) => ({
+  type: INSERT_SONG,
+  data
+});
+export const getSongDetail = (id) => {
+  return (dispatch) => {
+    getSongDetailRequest (id).then (data => {
+      let song = data.songs [0];
+      dispatch (insertSong ( song));
+    })
+  }
+}

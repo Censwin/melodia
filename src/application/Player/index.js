@@ -170,8 +170,9 @@ function Player(props) {
     changeModeDispatch(_mode)
     toastRef.current.show()
   }
-  const handleError = () => {
+  const handleError = (e) => {
     songReady.current = true
+    console.log(e)
     console.error('<播放出错>')
     // alert ("播放出错");
   }
@@ -242,6 +243,7 @@ function Player(props) {
         />
       )}
       <audio
+      id="__audio"
         ref={audioRef}
         onTimeUpdate={updateTime}
         onEnded={nextSong}

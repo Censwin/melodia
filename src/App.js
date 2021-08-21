@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import { Provider } from 'react-redux'
 import { GlobalStyle } from  './style'
 import { renderRoutes } from 'react-router-config'
@@ -9,6 +9,22 @@ import { HashRouter } from 'react-router-dom';
 import { Data } from './application/Singers/data';
 
 function App() {
+  useEffect(() => {
+    const target = document.getElementById('root')
+    if (target) {
+      target.addEventListener("click", function(){
+        const audio = document.getElementById("__audio")
+        console.log(audio)
+        if (audio) {
+          audio.play()
+          audio.pause()
+        }
+      });
+      setTimeout(() => {
+        target.removeEventListener("click", function(){});
+      }, 1);
+    }
+  }, [])
   return (
     <Provider store={store}>
       <HashRouter>
