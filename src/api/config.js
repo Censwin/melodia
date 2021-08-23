@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // export const baseUrl = 'http://localhost:3000';
-export const baseUrl = 'http://192.168.43.182:3000';
+export const baseUrl = 'http://42.194.142.92:3000';
 
 // axios的实例及拦截器配置
 const axiosInstance = axios.create({

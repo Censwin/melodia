@@ -12,17 +12,17 @@ function App() {
   useEffect(() => {
     const target = document.getElementById('root')
     if (target) {
-      target.addEventListener("click", function(){
+      const addAndRemove = function(){
         const audio = document.getElementById("__audio")
-        console.log(audio)
         if (audio) {
           audio.play()
           audio.pause()
         }
-      });
-      setTimeout(() => {
-        target.removeEventListener("click", function(){});
-      }, 1);
+        setTimeout(() => {
+          target.removeEventListener("click", addAndRemove);
+        }, 1);
+      }
+      target.addEventListener("click", addAndRemove);
     }
   }, [])
   return (
